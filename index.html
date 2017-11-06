@@ -59,6 +59,7 @@
       margin-top: 25px;
       color: black;
       display: grid;
+      font-size: 25px;
     }
 
 
@@ -73,11 +74,11 @@
 
     #score {
       display: flex;
-      height: 25px;
+      height: 35px;
     }
 
     #timer-container {
-    height: 25px;
+    height: 35px;
     margin: auto;
     display: flex;
     align-items: center;
@@ -112,7 +113,7 @@
     }
 
     .team {
-      width: 50px;
+      width: 75px;
       background-color: #F2F3F4;
       text-align: center;
       color: #aaa;
@@ -185,14 +186,48 @@
     <div>Host State: <span id="mediaHostState">Unknown</span></div>
     <div>Media Type: <span id="mediaType">Unkown</span></div>
     <div>Media Protocol: <span id="mediaProtocol">Unknown</span></div>
-
-
   </div>
 
 
-
-
-
+  <div id="player" class="player">
+          <div class="media">
+              <video></video>
+          </div>
+          <div class="logo"></div>
+          <div class="spinner"></div>
+          <div class="watermark"></div>
+          <div class="gradient"></div>
+          <div class="overlay">
+              <div class="media-info">
+                  <div class="media-artwork"></div>
+                  <div class="media-text">
+                      <div class="media-title"></div>
+                      <div class="media-subtitle"></div>
+                  </div>
+              </div>
+              <div class="preview-mode-info">
+                  <div class="preview-mode-artwork"></div>
+                  <div class="preview-mode-text">
+  	                <div class="preview-mode-timer">
+                          <div class="preview-mode-timer-starts">Up next in&nbsp;</div>
+                          <div class="preview-mode-timer-countdown"></div>
+                          <div class="preview-mode-timer-sec">&nbsp;secs...</div>
+                      </div>
+                      <div class="preview-mode-title"></div>
+                      <div class="preview-mode-subtitle"></div>
+                  </div>
+              </div>
+              <div class="controls">
+                  <span class="controls-play-pause"></span>
+                  <span class="controls-cur-time"></span>
+                  <span class="controls-total-time"></span>
+                  <div class="controls-progress">
+                      <div class="controls-progress-inner progressBar"></div>
+                      <div class="controls-progress-thumb"></div>
+                  </div>
+              </div>
+          </div>
+      </div>
   <video id="receiverVideoElement"></video>
 
   <script type="text/javascript">
@@ -205,6 +240,9 @@
     window.mediaProtocol = null;
     window.mediaPlayer = null;
     window.connectedCastSenders = []; // {senderId:'', channel:obj}
+
+
+
     function setHudMessage(elementId, message) {
       document.getElementById(elementId).innerHTML = '' + JSON.stringify(message);
     }

@@ -7,6 +7,14 @@ const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPl
 const loaders = require('./loaders.js')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 
+loaders.push({
+    test: /\.css$/,
+    use: ExtractTextPlugin.extract({
+        fallback: 'style-loader',
+        use: 'css-loader',
+    })
+})
+
 module.exports = ({ analyse }) => {
 
     const plugins = [

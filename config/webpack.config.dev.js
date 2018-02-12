@@ -6,6 +6,14 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 
 const loaders = require('./loaders.js')
 
+loaders.push({
+    test: /\.css$/,
+    use: [
+        { loader: 'style-loader', options: { insertInto: 'body' } },
+        { loader: 'css-loader' },
+    ],
+})
+
 module.exports = {
   entry: {
     index: [

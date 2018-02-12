@@ -5,6 +5,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 
 const loaders = require('./loaders.js')
+const ExtractTextPlugin = require('extract-text-webpack-plugin')
 
 module.exports = ({ analyse }) => {
 
@@ -12,6 +13,7 @@ module.exports = ({ analyse }) => {
         new HtmlWebpackPlugin({
             inject: true,
             template: './template/index.html',
+            chunksSortMode: 'none',
             minify: {
                 removeComments: true,
                 collapseWhitespace: true,
@@ -21,6 +23,7 @@ module.exports = ({ analyse }) => {
                 keepClosingSlash: true,
             }
         }),
+        new ExtractTextPlugin("cast.css"),
         new webpack.optimize.OccurrenceOrderPlugin(),
         new webpack.NoEmitOnErrorsPlugin(),
         new webpack.HashedModuleIdsPlugin(),

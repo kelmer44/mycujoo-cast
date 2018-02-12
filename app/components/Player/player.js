@@ -2114,3 +2114,5 @@ sampleplayer.isCastForAudioDevice_ = function() {
   }
   return false;
 };
+
+export default sampleplayer

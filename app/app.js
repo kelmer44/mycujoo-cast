@@ -1,9 +1,14 @@
 import React from 'react'
 import Scoreboard from 'mycujoo-scoreboard'
+import Player from './components/Player'
+import DebugPlayer from './components/DebugPlayer'
+
 
 const App = () => {
     return (
         <div data-player>
+          <Player />
+          <DebugPlayer />
           <Scoreboard
               metaData={{
                         timer: {
@@ -40,6 +45,9 @@ const App = () => {
                     }
                     forceScoreHidden={false}
                     competition={'Some Competition'}
+                    onLoadSponsor={() => {}}
+                    onViewSponsor={() => {}}
+                    onClickSponsor={() => {}}
               />
         </div>
     )

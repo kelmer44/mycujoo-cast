@@ -11,7 +11,8 @@
     "prebuild": "rimraf ./public",
     "build": "webpack --config config/webpack.config.prod.js --env.analyse=false",
     "preanalysis": "rimraf ./public | rimraf bundle-analysis-stats.json",
-    "analyse": "webpack --config config/webpack.config.prod.js --env.analyse=true --profile --json > bundle-analysis-stats.json --env.environment=production"
+    "analyse": "webpack --config config/webpack.config.prod.js --env.analyse=true --profile --json > bundle-analysis-stats.json --env.environment=production",
+    "deploy": "aws s3 sync --acl public-read ./public s3://cast.mycujoo.tv"
   },
   "dependencies": {
     "babel-core": "^6.26.0",
@@ -52,8 +53,10 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "extract-text-webpack-plugin": "^3.0.2",
     "react": "^15.3.2",
     "react-dom": "^15.3.2",
-    "react-hot-loader": "^3.0.0-beta.6"
+    "react-hot-loader": "^3.0.0-beta.6",
+    "webpack-bundle-analyzer": "^2.10.0"
   }
 }

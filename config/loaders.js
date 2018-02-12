@@ -7,13 +7,6 @@ module.exports = [
         ]
     },
     {
-        test: /\.css$/,
-        use: [
-            { loader: 'style-loader', options: { insertInto: 'body' } },
-            { loader: 'css-loader', options: { modules: true, localIdentName: '[name]__[local]___[hash:base64:5]', importLoaders: 1 } },
-        ],
-    },
-    {
         test: /\.json$/,
         use: [
             { loader: 'json-loader' },

@@ -1,0 +1,25 @@
+{
+  "name": "mycujoo-cast",
+  "version": "1.0.0",
+  "description": "",
+  "main": "player.js",
+  "dependencies": {},
+  "devDependencies": {
+    "lodash": "^4.17.5",
+    "mobx": "^3.5.1",
+    "mobx-react": "^4.4.1",
+    "moment": "^2.20.1",
+    "mycujoo-scoreboard": "^1.4.0",
+    "react": "^16.2.0",
+    "react-motion": "^0.5.2"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "http://kelmer@bitbucket.org/mycujootv/mycujoo-cast.git"
+  },
+  "author": "",
+  "license": "ISC"
+}

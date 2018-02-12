@@ -3,14 +3,12 @@
 <head>
   <title>Sample Media Receiver</title>
 
-    <script type="text/javascript" src="//www.gstatic.com/cast/sdk/libs/receiver/2.0.0/cast_receiver.js"></script>
-    <script type="text/javascript" src="//www.gstatic.com/cast/sdk/libs/mediaplayer/1.0.0/media_player.js"></script>
+  <script type="text/javascript" src="//www.gstatic.com/cast/sdk/libs/receiver/2.0.0/cast_receiver.js"></script>
+  <script type="text/javascript" src="//www.gstatic.com/cast/sdk/libs/mediaplayer/1.0.0/media_player.js"></script>
   <script type="text/javascript" src="player.js"></script>
 
-    <link rel="stylesheet" href="player.css" />
+  <link rel="stylesheet" href="player.css" />
   <style>
-  
-
     #messages {
       color: #FFFFFF;
       float: left;
@@ -56,28 +54,28 @@
     }
 
     #timer-container {
-    height: 35px;
-    margin: auto;
-    display: flex;
-    align-items: center;
-    background-color: #00CC7B;
-    color: white;
-    border-radius: 0px 0px 3px 3px;
-    justify-content: center;
+      height: 35px;
+      margin: auto;
+      display: flex;
+      align-items: center;
+      background-color: #00CC7B;
+      color: white;
+      border-radius: 0px 0px 3px 3px;
+      justify-content: center;
     }
 
     #timer {
 
       padding: 0px 10px;
 
-    text-align: center;
-    margin: auto;
-    display: flex;
-    align-items: center;
-    background-color: #00CC7B;
-    color: white;
-    border-radius: 0px 0px 3px 3px;
-    justify-content: center;
+      text-align: center;
+      margin: auto;
+      display: flex;
+      align-items: center;
+      background-color: #00CC7B;
+      color: white;
+      border-radius: 0px 0px 3px 3px;
+      justify-content: center;
     }
 
 
@@ -125,31 +123,6 @@
 
 <body>
 
-  <div id="scoreboard">
-    <div id="score">
-      <div class="color-badge local_color">
-      </div>
-      <div class="team local_team">
-        ABC
-      </div>
-      <div class="score local_score">
-        2
-      </div>
-      <div class="score away_score">
-        3
-      </div>
-
-      <div class="team local_team">
-        XYZ
-      </div>
-      <div class="color-badge away_color">
-      </div>
-    </div>
-    <div id="timer-container">
-      <div id="timer">
-      121:45</div>
-    </div>
-  </div>
 
 
   <div id="messages">
@@ -168,49 +141,77 @@
 
 
   <div id="player" class="player">
-          <div class="media">
-              <video></video>
-          </div>
-          <div class="logo"></div>
-          <div class="spinner"></div>
-          <div class="watermark"></div>
-          <div class="gradient"></div>
-          <div class="overlay">
-              <div class="media-info">
-                  <div class="media-artwork"></div>
-                  <div class="media-text">
-                      <div class="media-title"></div>
-                      <div class="media-subtitle"></div>
-                  </div>
-              </div>
-              <div class="preview-mode-info">
-                  <div class="preview-mode-artwork"></div>
-                  <div class="preview-mode-text">
-  	                <div class="preview-mode-timer">
-                          <div class="preview-mode-timer-starts">Up next in&nbsp;</div>
-                          <div class="preview-mode-timer-countdown"></div>
-                          <div class="preview-mode-timer-sec">&nbsp;secs...</div>
-                      </div>
-                      <div class="preview-mode-title"></div>
-                      <div class="preview-mode-subtitle"></div>
-                  </div>
-              </div>
-              <div class="controls">
-                  <span class="controls-play-pause"></span>
-                  <span class="controls-cur-time"></span>
-                  <span class="controls-total-time"></span>
-                  <div class="controls-progress">
-                      <div class="controls-progress-inner progressBar"></div>
-                      <div class="controls-progress-thumb"></div>
-                  </div>
-              </div>
-          </div>
+
+    <div id="scoreboard">
+      <div id="score">
+        <div class="color-badge local_color">
+        </div>
+        <div class="team local_team">
+          ABC
+        </div>
+        <div class="score local_score">
+          2
+        </div>
+        <div class="score away_score">
+          3
+        </div>
+
+        <div class="team local_team">
+          XYZ
+        </div>
+        <div class="color-badge away_color">
+        </div>
       </div>
+      <div id="timer-container">
+        <div id="timer">
+          121:45</div>
+      </div>
+    </div>
+
+
+    <div class="media">
+      <video></video>
+    </div>
+    <div class="logo"></div>
+    <div class="spinner"></div>
+    <div class="watermark"></div>
+    <div class="gradient"></div>
+    <div class="overlay">
+      <div class="media-info">
+        <div class="media-artwork"></div>
+        <div class="media-text">
+          <div class="media-title"></div>
+          <div class="media-subtitle"></div>
+        </div>
+      </div>
+      <div class="preview-mode-info">
+        <div class="preview-mode-artwork"></div>
+        <div class="preview-mode-text">
+          <div class="preview-mode-timer">
+            <div class="preview-mode-timer-starts">Up next in&nbsp;</div>
+            <div class="preview-mode-timer-countdown"></div>
+            <div class="preview-mode-timer-sec">&nbsp;secs...</div>
+          </div>
+          <div class="preview-mode-title"></div>
+          <div class="preview-mode-subtitle"></div>
+        </div>
+      </div>
+      <div class="controls">
+        <span class="controls-play-pause"></span>
+        <span class="controls-cur-time"></span>
+        <span class="controls-total-time"></span>
+        <div class="controls-progress">
+          <div class="controls-progress-inner progressBar"></div>
+          <div class="controls-progress-thumb"></div>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <script>
-      var playerDiv = document.getElementById('player');
-      new sampleplayer.CastPlayer(playerDiv).start();
-    </script>
+    var playerDiv = document.getElementById('player');
+    new sampleplayer.CastPlayer(playerDiv).start();
+  </script>
 </body>
 
 </html>

@@ -31,7 +31,7 @@ module.exports = ({ analyse }) => {
                 keepClosingSlash: true,
             }
         }),
-        new ExtractTextPlugin("cast.css"),
+        new ExtractTextPlugin("styles.css"),
         new webpack.optimize.OccurrenceOrderPlugin(),
         new webpack.NoEmitOnErrorsPlugin(),
         new webpack.HashedModuleIdsPlugin(),

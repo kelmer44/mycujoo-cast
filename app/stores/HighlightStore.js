@@ -1,7 +1,6 @@
-import { observable, autorun } from 'mobx'
-import { fromPromise } from 'mobx-utils'
+import { observable, computed } from 'mobx'
 
-export class Highlight {
+export class Item {
     @observable data = {}
 
     constructor(store, json) {
@@ -22,10 +21,30 @@ export class Highlight {
     }
 }
 
-export class HighlightStore {
+const goalActions = [
+    'score_increased',
+    'score_decreased'
+]
+
+const scoreboardActions = [
+    'score_increased',
+    'score_decreased',
+    'score_shown',
+    'score_hidden',
+    'timer_shown',
+    'timer_hidden',
+    'timer_started',
+    'timer_stopped',
+    'timer_updated',
+]
+
+const isGoalAction = item => goalActions.includes(item.type)
+const isScoreboardAction = item => scoreboardActions.includes(item.type)
+
+export default class TimelineStore {
     transportLayer
 
-    highlights = []
+    timeline = []
 
     constructor(transportLayer, playerStore) {
         this.playerStore = playerStore
@@ -40,40 +59,42 @@ export class HighlightStore {
     }
 
     loadOrUpdateHighlights() {
-        this.transportLayer.fetchHighlights().then(fetchedHighlights => {
+        this.transportLayer.fetchTimeline().then(fetchedHighlights => {
             fetchedHighlights.forEach(json => this.updateHighlightFromServer(json))
         })
     }
 
     updateHighlightFromServer(json) {
-        const highlight = this.highlights.find(highlight => highlight.id === json.id)
-        if (!highlight) {
+        const item = this.timeline.find(item => item.id === json.id)
+        if (!item) {
             this.createHighlight(json)
         } else if (json.isDeleted) {
-            this.removeHighlight(highlight)
+            this.removeHighlight(item)
         } else {
-            highlight.updateFromJson(json)
+            item.updateFromJson(json)
         }
     }
 
     createHighlight(json) {
-        const highlight = new Highlight(this, json)
-        this.highlights.push(highlight)
-        return highlight
+        const item = new Item(this, json)
+        this.timeline.push(item)
+        return item
     }
 
-    removeHighlight(highlight) {
-        this.highlights.splice(this.highlights.indexOf(highlight), 1)
+    removeHighlight(item) {
+        this.timeline.splice(this.timeline.indexOf(item), 1)
     }
 
-    @computed get currentHighlights() {
-        return this.highlights.filter(highlight => {
-            // 3s delay to wait for goal to show highlight
-            // show goal for 20s
-            return (
-                this.playerStore.currentTime >= highlight.elapsed_time + 3
-                && this.playerStore.currentTime <= highlight.elapsed_time + 3 + 20
-            )
-        })
+    @computed get currentGoals() {
+        return this.timeline
+            .filter(isGoalAction)
+            .filter(item => {
+                // 3s delay to wait for goal to show item
+                // show goal for 20s
+                return (
+                    this.playerStore.currentTime >= item.elapsed_time + 3
+                    && this.playerStore.currentTime <= item.elapsed_time + 3 + 20
+                )
+            })
     }
 }

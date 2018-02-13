@@ -6,8 +6,12 @@ import DebugPlayer from './components/DebugPlayer'
 import '../cast.css'
 
 import PlayerStore from './stores/PlayerStore'
+import HighlightStore from './stores/HighlightStore'
+
+import transportLayer from './transport'
 
 const playerStore = new PlayerStore()
+const highlightStore = new HighlightStore(transportLayer, playerStore)
 
 @observer
 export default class App extends PureComponent {

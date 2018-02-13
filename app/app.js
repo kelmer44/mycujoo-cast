@@ -13,6 +13,9 @@ import transportLayer from './transport'
 const playerStore = new PlayerStore()
 const highlightStore = new HighlightStore(transportLayer, playerStore)
 
+window.playerStore = playerStore
+window.highlightStore = highlightStore
+
 @observer
 export default class App extends PureComponent {
     render() {

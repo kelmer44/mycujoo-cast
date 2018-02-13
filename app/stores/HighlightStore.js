@@ -38,7 +38,7 @@ const scoreboardActions = [
     'timer_updated',
 ]
 
-const isGoalAction = item => goalActions.includes(item.type)
+const isGoalAction = item => { return goalActions.includes(item.type) || item.data.type === 'goal' }
 const isScoreboardAction = item => scoreboardActions.includes(item.type)
 
 export default class TimelineStore {
@@ -59,9 +59,23 @@ export default class TimelineStore {
     }
 
     loadOrUpdateHighlights() {
-        this.transportLayer.fetchTimeline().then(fetchedHighlights => {
-            fetchedHighlights.forEach(json => this.updateHighlightFromServer(json))
-        })
+        this.transportLayer.fetchTimeline()
+            .then(data => data.json())
+            .then(fetchedHighlights => {
+                fetchedHighlights.forEach(json => this.updateHighlightFromServer(json))
+                console.log(this.timeline)
+                // test temp
+                this.timeline.filer(isScoreboardAction).forEach(item => {
+                    switch (item.type) {
+                        case 'score_increased':
+                            this.playerStore.increaseScore(item.data.team)
+                            break
+                        case 'score_decreased':
+                            this.playerStore.dereaseScore(item.data.team)
+                            break
+                    }
+                })
+            })
     }
 
     updateHighlightFromServer(json) {

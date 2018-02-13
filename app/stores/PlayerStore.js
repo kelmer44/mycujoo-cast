@@ -32,6 +32,16 @@ class PlayerStore {
             image_url: null,
         }
     }
+
+    increaseScore(team) {
+        const side = team === 'home' ? 0 : 1
+        this.metaData.score.data[side] = this.metaData.score.data[side] + 1
+    }
+
+    decreaseScore(team) {
+        const side = team === 'home' ? 0 : 1
+        this.metaData.score.data[side] = this.metaData.score.data[side] - 1
+    }
 }
 
 export default PlayerStore

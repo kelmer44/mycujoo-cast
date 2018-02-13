@@ -1,9 +1,8 @@
 import EventEmitter from 'eventemitter3'
 
 class TransportLayer extends EventEmitter {
-    async fetchTimeline(id = 13258) {
-        const response = await fetch(`https://mycujoo.tv/live/timeline/${id}`)
-        return response.json()
+    fetchTimeline(id = 13258) {
+        return fetch(`https://mycujoo.tv/live/timeline/${id}`)
     }
 }
 

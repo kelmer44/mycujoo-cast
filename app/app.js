@@ -41,7 +41,7 @@ export default class App extends PureComponent {
                     }}
                     sponsor={playerStore.sponsor}
                     forceScoreHidden={false}
-                    competition={'Some Competition'}
+                    competition={playerStore.competition}
                     onLoadSponsor={() => {}}
                     onViewSponsor={() => {}}
                     onClickSponsor={() => {}}

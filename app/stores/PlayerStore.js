@@ -9,6 +9,7 @@ export default class PlayerStore {
         team_away: {},
         team_home: {},
     }
+    @observable competition = false
     @observable sponsor = false
 
     @observable currentTimeInPlayer = 1675
@@ -56,6 +57,8 @@ export default class PlayerStore {
             ...json.match_data.team_home,
             logo: checkUrlInLogo(json.match_data.team_home.logo),
         }
+
+        this.competition = json.description
 
         if(json.sponsor) {
             this.sponsor = json.sponsor

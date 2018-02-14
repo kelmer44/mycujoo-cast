@@ -16,12 +16,13 @@ import GoalStore from './stores/GoalStore'
 import TransportLayer from './transportLayer'
 
 const transportLayer = new TransportLayer()
-const playerStore = new PlayerStore(transportLayer)
-const timelineStore = new TimelineStore(transportLayer, playerStore)
-const goalStore = new GoalStore(timelineStore, playerStore)
+const playerStore = new PlayerStore({ transportLayer })
+const timelineStore = new TimelineStore({ transportLayer, playerStore })
+const goalStore = new GoalStore({ playerStore, timelineStore })
 
 window.playerStore = playerStore
 window.timelineStore = timelineStore
+window.goalStore = goalStore
 
 @observer
 export default class App extends PureComponent {
@@ -45,7 +46,10 @@ export default class App extends PureComponent {
                     onViewSponsor={() => {}}
                     onClickSponsor={() => {}}
                 />
-                <GoalOverlay />
+                <GoalOverlay
+                    disabled={goalStore.disabled}
+                    goal={goalStore.currentGoal}
+                />
             </div>
         )
     }

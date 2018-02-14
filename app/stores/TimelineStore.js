@@ -20,7 +20,7 @@ export default class TimelineStore {
     fetchTimeout
     @observable timeline = []
 
-    constructor(transportLayer, playerStore) {
+    constructor({ transportLayer, playerStore }) {
         this.playerStore = playerStore
         this.transportLayer = transportLayer
         this.setupReactions()
@@ -64,7 +64,7 @@ export default class TimelineStore {
             const response = await this.transportLayer.fetchTimeline()
             this.timeline = await response.json()
         } catch (e) {
-            console.error("Booo", e)
+            console.error('Booo', e)
         }
     }
 

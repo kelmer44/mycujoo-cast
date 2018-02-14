@@ -17,9 +17,9 @@ export default class PlayerStore {
     }
     @observable sponsor = false
 
-    @observable currentTimeInPlayer = 0
+    @observable currentTimeInPlayer = 1676
 
-    constructor(transportLayer) {
+    constructor({ transportLayer }) {
         this.transportLayer = transportLayer
         this.check = requestAnimationFrame(() => this.getTimeFromPlayer())
         this.fetchMatchInfo()
@@ -100,7 +100,7 @@ export default class PlayerStore {
     }
 
     @action.bound
-    timerStopped() {
+    timerStopped(item) {
         this.scoreboard.timer.time = item.data.elapsed
         this.scoreboard.timer.at = item.offset
         this.scoreboard.timer.stopped = true

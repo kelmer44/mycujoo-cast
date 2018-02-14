@@ -47,6 +47,10 @@ export default class App extends PureComponent {
                     onClickSponsor={() => {}}
                 />
                 <GoalOverlayContainer
+                    playerStore={{
+                        currentTimeInPlayer: playerStore.currentTimeInPlayer,
+                        timer: playerStore.timer,
+                    }}
                     teams={{
                         home: playerStore.scoreboard.team_home,
                         away: playerStore.scoreboard.team_away,

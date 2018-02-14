@@ -28,12 +28,16 @@ export default class GoalOverlay extends PureComponent {
 
         const description = isOwnGoal ? 'OWN GOAL' : 'GOAL'
 
+        const timer = this.props.playerStore.timer
+        const elapsedSecondsAfterHighlightHappened = this.props.playerStore.currentTimeInPlayer - goal.offset
+        const minute = Math.ceil((timer + 1 - elapsedSecondsAfterHighlightHappened) / 60)
+
         return (
             <div className={styles.root}>
                 <img src={logoSrc} />
-                {description}
-                {player}
-                {name}
+                <p>{description}</p>
+                <p>{player}</p>
+                <p>{minute} {description}</p>
             </div>
         )
     }

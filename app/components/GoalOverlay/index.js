@@ -4,8 +4,16 @@ import styles from './GoalOverlay.css'
 import checkUrlInLogo from '../../lib/checkUrlInLogo'
 
 export default class GoalOverlay extends PureComponent {
+    shouldComponentUpdate(nextProps) {
+        if (this.props.goal.id !== nextProps.goal.id) {
+            return true
+        }
+        return false
+    }
+
     render() {
         const { goal, teams } = this.props
+        console.log(teams)
         const team = teams[goal.data.team]
 
         const otherTeam = teams[goal.data.team === 'home'

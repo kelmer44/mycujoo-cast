@@ -11,7 +11,7 @@ export default class PlayerStore {
     }
     @observable sponsor = false
 
-    @observable currentTimeInPlayer = 1678
+    @observable currentTimeInPlayer = 1675
 
     constructor({ transportLayer }) {
         this.transportLayer = transportLayer

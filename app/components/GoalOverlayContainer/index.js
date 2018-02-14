@@ -30,7 +30,7 @@ export default class GoalOverlayContainer extends PureComponent {
                                 }
 
                                 return (
-                                    <GoalOverlay {...this.props} />
+                                    <GoalOverlay {...this.props} goal={goal} />
                                 )
                             }}
                         </Freeze>

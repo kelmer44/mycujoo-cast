@@ -23,6 +23,7 @@
     "babel-preset-latest": "^6.24.1",
     "babel-preset-react": "^6.24.1",
     "babel-preset-stage-1": "^6.24.1",
+    "camelcase": "^4.1.0",
     "case-sensitive-paths-webpack-plugin": "^1.1.4",
     "css-loader": "^0.28.9",
     "eslint": "^3.8.1",

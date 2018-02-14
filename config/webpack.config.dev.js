@@ -42,9 +42,9 @@ module.exports = {
       inject: true,
       template: './template/index.html',
     }),
-    new webpack.optimize.ModuleConcatenationPlugin(),
     new webpack.HotModuleReplacementPlugin(),
     new CaseSensitivePathsPlugin(),
     new webpack.NoEmitOnErrorsPlugin(),
+    new webpack.NamedModulesPlugin(),
   ],
 }

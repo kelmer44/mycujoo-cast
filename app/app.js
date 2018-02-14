@@ -6,25 +6,29 @@ import DebugPlayer from './components/DebugPlayer'
 import '../cast.css'
 
 import PlayerStore from './stores/PlayerStore'
-import HighlightStore from './stores/HighlightStore'
+import TimelineStore from './stores/TimelineStore'
 
-import transportLayer from './transport'
+import TransportLayer from './transportLayer'
 
-const playerStore = new PlayerStore()
-const highlightStore = new HighlightStore(transportLayer, playerStore)
+const transportLayer = new TransportLayer()
+const playerStore = new PlayerStore(transportLayer)
+const timelineStore = new TimelineStore(transportLayer, playerStore)
 
 window.playerStore = playerStore
-window.highlightStore = highlightStore
+window.timelineStore = timelineStore
 
 @observer
 export default class App extends PureComponent {
     render() {
+
+
+
         return (
             <div data-player>
                 <Player />
                 <DebugPlayer />
                 <Scoreboard
-                    metaData={playerStore.metaData}
+                    metaData={playerStore.scoreboard}
                     sponsor={playerStore.sponsor}
                     forceScoreHidden={false}
                     competition={'Some Competition'}

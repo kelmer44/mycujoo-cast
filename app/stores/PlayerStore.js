@@ -1,4 +1,4 @@
-import { observable, action } from 'mobx'
+import { observable, computed, action } from 'mobx'
 
 const res = (window.devicePixelRatio || 1) * 70
 
@@ -15,59 +15,71 @@ export default class PlayerStore {
         team_away: {},
         team_home: {},
     }
-    sponsor = false
-    //{
-        // data: {
-        //     link_url: null,
-        //     image_url: null,
-        // },
-    // }
+    @observable sponsor = false
 
-    @observable currentTimeInPlayer = 1540
+    @observable currentTimeInPlayer = 0
 
     constructor(transportLayer) {
         this.transportLayer = transportLayer
-        this.check = requestAnimationFrame(() => this.updateTimeFromPlayer())
-
+        this.check = requestAnimationFrame(() => this.getTimeFromPlayer())
         this.fetchMatchInfo()
+    }
 
-        // temp for dev
-        setInterval(() => {
-            console.log(this.currentTimeInPlayer)
+    @computed
+    get timer() {
+        const { stopped, time, at } = this.scoreboard.timer
+
+        if (stopped) {
+            return time
+        }
+
+        const delta = this.currentTimeInPlayer - at
+        return time + delta
+    }
+
+    async fetchMatchInfo() {
+        const response = await this.transportLayer.fetchMatchInfo()
+        const json = await response.json()
+        this.updateFromJson(json)
+    }
+
+    @action.bound
+    getTimeFromPlayer() {
+        setTimeout(() => {
             this.currentTimeInPlayer = this.currentTimeInPlayer + 1
-            this.timerUpdated({ data: { elapsed: this.scoreboard.timer.time + 1 }})
+            this.check = requestAnimationFrame(() => this.getTimeFromPlayer())
         }, 1000)
     }
 
     @action.bound
+    updateFromJson(json) {
+        this.scoreboard.team_away = {
+            ...json.match_data.team_away,
+            logo: checkUrlInLogo(json.match_data.team_away.logo),
+        }
+
+        this.scoreboard.team_home = {
+            ...json.match_data.team_home,
+            logo: checkUrlInLogo(json.match_data.team_home.logo),
+        }
+
+        if(json.sponsor) {
+            this.sponsor = json.sponsor
+        }
+    }
+
+    @action.bound
     reset() {
-        console.log('reset')
         this.scoreboard.timer = {
             time: 0,
+            at: 0,
             enabled: false,
             stopped: true,
         }
         this.scoreboard.score = {
             enabled: false,
-            data: [
-                0,
-                0,
-            ],
+            data: [ 0, 0 ],
         }
-    }
-
-    @action.bound
-    async fetchMatchInfo() {
-        const response = await this.transportLayer.fetchMatchInfo()
-        const { match_data: { team_away, team_home } } = await response.json()
-        this.scoreboard.team_away = { ...team_away, logo: checkUrlInLogo(team_away.logo) }
-        this.scoreboard.team_home = { ...team_home, logo: checkUrlInLogo(team_home.logo) }
-    }
-
-    updateTimeFromPlayer() {
-        // get time from player
-        // set into updateTime
-        this.check = requestAnimationFrame(() => this.updateTimeFromPlayer())
     }
 
     @action.bound
@@ -81,18 +93,23 @@ export default class PlayerStore {
     }
 
     @action.bound
-    timerStarted() {
-
+    timerStarted(item) {
+        this.scoreboard.timer.time = item.data.elapsed
+        this.scoreboard.timer.at = item.offset
+        this.scoreboard.timer.stopped = false
     }
 
     @action.bound
     timerStopped() {
-
+        this.scoreboard.timer.time = item.data.elapsed
+        this.scoreboard.timer.at = item.offset
+        this.scoreboard.timer.stopped = true
     }
 
     @action.bound
     timerUpdated(item) {
         this.scoreboard.timer.time = item.data.elapsed
+        this.scoreboard.timer.at = item.offset
     }
 
     @action.bound
@@ -107,13 +124,13 @@ export default class PlayerStore {
 
     @action.bound
     scoreIncreased(item) {
-        const team = item.data.item === 'home' ? 0 : 1
+        const team = item.data.team === 'home' ? 0 : 1
         this.scoreboard.score.data[team] = this.scoreboard.score.data[team] + 1
     }
 
     @action.bound
     scoreDecreased(item) {
-        const team = item.data.item === 'home' ? 0 : 1
+        const team = item.data.team === 'home' ? 0 : 1
         this.scoreboard.score.data[team] = this.scoreboard.score.data[team] - 1
     }
 

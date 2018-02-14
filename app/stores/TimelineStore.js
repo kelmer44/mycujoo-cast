@@ -23,12 +23,15 @@ export default class TimelineStore {
     constructor(transportLayer, playerStore) {
         this.playerStore = playerStore
         this.transportLayer = transportLayer
+        this.setupReactions()
+    }
 
+    setupReactions() {
         // delay is debouncing
         this.fetchReaction = reaction(
             () => this.playerStore.currentTimeInPlayer,
-            () => this.fetch(),
-            { fireImmediately: true, delay: 5000 },
+            () => this.fetchTimeline(),
+            { fireImmediately: true, delay: FETCH_DELAY },
         )
 
         // it's safe to compare .length since timeline does not remove events
@@ -39,7 +42,24 @@ export default class TimelineStore {
         )
     }
 
-    async fetch() {
+    @computed get currentTimeline() {
+        return this.timeline
+            .filter(item => this.playerStore.currentTimeInPlayer >= item.offset)
+            .sort((a, b) => a.elapsed_time === b.elapsed_time
+                ? a.id - b.id
+                : a.elapsed_time - b.elapsed_time)
+    }
+
+    @computed get currentGoal() {
+        return this.currentTimeline
+            .concat()
+            .reverse()
+            .find(item =>
+                item.data && item.data.type === 'goal'
+            )
+    }
+
+    async fetchTimeline() {
         try {
             const response = await this.transportLayer.fetchTimeline()
             this.timeline = await response.json()
@@ -65,23 +85,5 @@ export default class TimelineStore {
     dispose() {
         this.fetchReaction.dispose()
         this.parseTimelineReaction.dispose()
-    }
-
-    @computed get currentTimeline() {
-        return this.timeline
-            .filter(item => this.playerStore.currentTimeInPlayer >= item.offset)
-            .sort((a, b) => a.elapsed_time === b.elapsed_time
-                ? a.id - b.id
-                : a.elapsed_time - b.elapsed_time)
-    }
-
-    @computed get currentGoal() {
-        return this.currentTimeline
-            .concat()
-            .reverse()
-            .find(item =>
-                item.data &&
-                    item.data.type === 'goal'
-            )
     }
 }

@@ -7,7 +7,7 @@ import './app.css'
 
 import Player from './components/Player'
 import DebugPlayer from './components/DebugPlayer'
-import GoalOverlay from './components/GoalOverlay'
+import GoalOverlayContainer from './components/GoalOverlayContainer'
 
 import PlayerStore from './stores/PlayerStore'
 import TimelineStore from './stores/TimelineStore'
@@ -46,7 +46,11 @@ export default class App extends PureComponent {
                     onViewSponsor={() => {}}
                     onClickSponsor={() => {}}
                 />
-                <GoalOverlay
+                <GoalOverlayContainer
+                    teams={{
+                        home: playerStore.scoreboard.team_home,
+                        away: playerStore.scoreboard.team_away,
+                    }}
                     disabled={goalStore.disabled}
                     goal={goalStore.currentGoal}
                 />

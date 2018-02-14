@@ -1,42 +1,40 @@
 import React, { PureComponent } from 'react'
-import { Motion, spring } from 'react-motion'
-
-import Freeze from '../../lib/Freeze'
-
 import styles from './GoalOverlay.css'
 
-const settings = { stiffness: 110, damping: 20 }
+import checkUrlInLogo from '../../lib/checkUrlInLogo'
 
 export default class GoalOverlay extends PureComponent {
     render() {
-        return (
-            <Motion
-              defaultStyle={{ opacity: 0 }}
-              style={{
-                opacity: spring(this.props.disabled ? 0 : 1, settings)
-              }}
-            >
-                {style =>
-                    <div style={style}>
-                        <Freeze
-                          value={this.props.goal}
-                          visible={!this.props.disabled}
-                        >
-                            {goal => {
-                                if (goal.id === -1) {
-                                    return null
-                                }
+        const { goal, teams } = this.props
+        const team = teams[goal.data.team]
 
-                                return (
-                                    <div className={styles.root}>
-                                        {goal.id}
-                                    </div>
-                                )
-                            }}
-                        </Freeze>
-                    </div>
-                }
-            </Motion>
+        const otherTeam = teams[goal.data.team === 'home'
+            ? goal.data.team
+            : 'away']
+
+        const name = goal.data.tagged_players[0].name
+        const player = name || team.name
+        const isOwnGoal = goal.data.outcome === 'own_goal'
+
+        const logo = isOwnGoal
+            ? team.logo
+            : otherTeam.logo
+
+        const logoSrc = logo.match(/http/)
+            ? logo
+            : checkUrlInLogo(logo, 70)
+
+        const color = team ? team.color : '#fff'
+
+        const description = isOwnGoal ? 'OWN GOAL' : 'GOAL'
+
+        return (
+            <div className={styles.root}>
+                <img src={logoSrc} />
+                {description}
+                {player}
+                {name}
+            </div>
         )
     }
 }

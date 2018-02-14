@@ -1,12 +1,6 @@
 import { observable, computed, action } from 'mobx'
 
-const res = (window.devicePixelRatio || 1) * 70
-
-function checkUrlInLogo(src) {
-    return src.match(/http/)
-        ? src
-        : `https://mycujoo-static.imgix.net/${src}?w=${res}&h=${res}`
-}
+import checkUrlInLogo from '../lib/checkUrlInLogo'
 
 export default class PlayerStore {
     @observable scoreboard = {

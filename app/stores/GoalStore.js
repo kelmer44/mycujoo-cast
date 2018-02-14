@@ -30,7 +30,7 @@ export default class GoalStore {
         this.disabled = false
         this.timeout = setTimeout(() => {
             this.disabled = true
-        }, 2000)
+        }, 7500)
     }
 
     @computed

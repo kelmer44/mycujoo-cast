@@ -13,7 +13,6 @@ export default class GoalOverlay extends PureComponent {
 
     render() {
         const { goal, teams } = this.props
-        console.log(teams)
         const team = teams[goal.data.team]
 
         const otherTeam = teams[goal.data.team === 'home'

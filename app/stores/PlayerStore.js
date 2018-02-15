@@ -56,9 +56,19 @@ export default class PlayerStore {
     async fetchPlayerSponsors(tvId, competitionId) {
         const response = await this.transportLayer.fetchPlayerSponsors(tvId, competitionId)
         const json = await response.json()
-        this.playerSponsors = json.campaign_spots
-            .concat()
-            .filter(spot => spot.slug.startsWith('tv-header'))
+
+        console.log(json)
+        json && json.campaign_spots && console.log(json.campaign_spots)
+
+        if (json.campaign_spots && json.campaign_spots.length !== 0) {
+            const playerSponsors = json.campaign_spots[0]
+                .concat()
+                .filter(spot => spot.slug.startsWith('tv-header'))
+
+            if (playerSponsors.length !== 0) {
+                this.playerSponsors = playerSponsors
+            }
+        }
     }
 
     @action.bound

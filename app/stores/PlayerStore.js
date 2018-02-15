@@ -11,13 +11,19 @@ export default class PlayerStore {
     }
     @observable competition = false
     @observable sponsor = false
+    check = null
 
-    @observable currentTimeInPlayer = 1678
+    @observable currentTimeInPlayer = 0
 
     constructor({ transportLayer }) {
         this.transportLayer = transportLayer
-        this.check = requestAnimationFrame(() => this.getTimeFromPlayer())
         this.fetchMatchInfo()
+    }
+
+    initialise = () => {
+        const playerDiv = document.getElementById('player')
+        new sampleplayer.CastPlayer(playerDiv).start()
+        this.check = requestAnimationFrame(() => this.getTimeFromPlayer())
     }
 
     @computed
@@ -41,7 +47,10 @@ export default class PlayerStore {
     @action.bound
     getTimeFromPlayer() {
         setTimeout(() => {
-            this.currentTimeInPlayer = this.currentTimeInPlayer + 1
+            const video = document.querySelector('#player video')
+            if (video && video.currentTime) {
+                this.currentTimeInPlayer = video.currentTime
+            }
             this.check = requestAnimationFrame(() => this.getTimeFromPlayer())
         }, 1000)
     }

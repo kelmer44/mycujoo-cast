@@ -3,6 +3,7 @@ import { observer } from 'mobx-react'
 import Scoreboard from 'mycujoo-scoreboard'
 
 import '../cast.css'
+import '!style-loader!css-loader!../player.css'
 import './app.css'
 
 import Player from './components/Player'
@@ -31,7 +32,7 @@ export default class App extends Component {
     render() {
         return (
             <div data-player>
-                <Player />
+                <Player initialise={playerStore.initialise} />
                 {showStatsForNerds && <DebugPlayer />}
                 <Scoreboard
                     metaData={{

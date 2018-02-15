@@ -2,6 +2,8 @@ import { observable, computed, action } from 'mobx'
 
 import checkUrlInLogo from '../lib/checkUrlInLogo'
 
+const needsMatchInfo = true
+
 export default class PlayerStore {
     @observable scoreboard = {
         score: {},
@@ -18,7 +20,9 @@ export default class PlayerStore {
 
     constructor({ transportLayer }) {
         this.transportLayer = transportLayer
-        this.fetchMatchInfo()
+        if (needsMatchInfo) {
+            this.fetchMatchInfo()
+        }
     }
 
     initialise() {
@@ -26,6 +30,11 @@ export default class PlayerStore {
             const playerDiv = document.getElementById('player')
             this.CastPlayer = new sampleplayer.CastPlayer(playerDiv)
             this.CastPlayer.start()
+            // const mediaManager = new cast.receiver.MediaManager(this.CastPlayer.getMediaElement())
+            // mediaManager.onLoad = (info) => {
+            //     console.log('---------')
+            //     console.log(info)
+            // }
             this.check = requestAnimationFrame(() => this.getTimeFromPlayer())
         }
     }

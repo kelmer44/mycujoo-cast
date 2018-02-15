@@ -2,8 +2,8 @@ import React, { Component } from 'react'
 import { observer } from 'mobx-react'
 import Scoreboard from 'mycujoo-scoreboard'
 
-import '../cast.css'
-import '!style-loader!css-loader!../player.css'
+import '../assets/cast.css'
+import '!style-loader!css-loader!../assets/player.css'
 import './app.css'
 
 import Player from './components/Player'

@@ -14,9 +14,6 @@
  * limitations under the License.
 **/
 
-/* NOTE: this must be first statement in file to work on device */
-@import url(https://fonts.googleapis.com/css?family=Open+Sans:300,400);
-
 /* ------------------------------------------------- */
 /* Animations                                        */
 /* ------------------------------------------------- */
@@ -45,8 +42,6 @@ body {
   background-position: center;
   background-repeat: no-repeat;
   color: #fff;
-  font-family: 'Open Sans',sans-serif;
-  font-weight: 300;
   position: absolute;
   left: 0;
   right: 0;
@@ -217,7 +212,7 @@ body {
 }
 
 .player .progressBar {
-  background-color: rgb(250, 178, 49);
+  background-color: #0BD280;
 }
 
 .player .controls-progress {
@@ -325,7 +320,7 @@ body {
 
 .player .preview-mode-info .preview-mode-timer {
   display: flex;
-  color: rgb(250, 178, 49);
+  color: #0BD280;
   font-size: 22px;
   overflow: hidden;
   width: 80%;

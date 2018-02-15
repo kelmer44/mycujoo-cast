@@ -182,5 +182,6 @@ export default class PlayerStore {
 
     dispose() {
         cancelAnimationFrame(this.check)
+        this.check = null
     }
 }

@@ -81,7 +81,7 @@ export default class App extends Component {
                     disabled={goalStore.disabled}
                     goal={goalStore.currentGoal}
                 />
-                <CurrentTime time={playerStore.currentTimeInPlayer} />
+                <CurrentTime time={pplayerStore.currentTimeInPlayer.toFixed(2)} />
             </div>
         )
     }

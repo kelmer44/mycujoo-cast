@@ -30,6 +30,8 @@ export default class PlayerStore {
                 this.setMetaDataAndCustomData(metaData)
             })
             this.CastPlayer.start()
+        }
+        if (!this.check) {
             this.check = requestAnimationFrame(() => this.getTimeFromPlayer())
         }
     }
@@ -51,8 +53,8 @@ export default class PlayerStore {
         this.updateFromJson(json)
     }
 
-    async fetchPlayerSponsors(tvId) {
-        const response = await this.transportLayer.fetchPlayerSponsors(tvId)
+    async fetchPlayerSponsors(tvId, competitionId) {
+        const response = await this.transportLayer.fetchPlayerSponsors(tvId, competitionId)
         const json = await response.json()
         this.playerSponsors = json[0].campaign_spots
             .concat()

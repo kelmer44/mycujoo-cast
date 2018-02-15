@@ -56,7 +56,7 @@ export default class PlayerStore {
     async fetchPlayerSponsors(tvId, competitionId) {
         const response = await this.transportLayer.fetchPlayerSponsors(tvId, competitionId)
         const json = await response.json()
-        this.playerSponsors = json[0].campaign_spots
+        this.playerSponsors = json.campaign_spots
             .concat()
             .filter(spot => spot.slug.startsWith('tv-header'))
     }

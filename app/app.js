@@ -9,6 +9,7 @@ import './app.css'
 import Player from './components/Player'
 import DebugPlayer from './components/DebugPlayer'
 import GoalOverlay from './components/GoalOverlayContainer'
+import Sponsors from './components/Sponsors'
 
 import PlayerStore from './stores/PlayerStore'
 import TimelineStore from './stores/TimelineStore'
@@ -25,15 +26,15 @@ window.playerStore = playerStore
 window.timelineStore = timelineStore
 window.goalStore = goalStore
 
-const showStatsForNerds = true // window.location.search.includes('statsForNerds')
+const showStatsForNerds = window.location.search.includes('statsForNerds')
 const showCurrentTime = true
 
 const CurrentTime = ({ time }) => {
     return (
         <div style={{
             position: 'absolute',
-            top: '16px',
-            right: '16px',
+            right: '32px',
+            bottom: '32px',
             zIndex: 10,
             borderRadius: '4px',
             background: 'white',
@@ -56,13 +57,15 @@ export default class App extends Component {
                 {showStatsForNerds && <DebugPlayer />}
                 <Scoreboard
                     metaData={{
-                        ...playerStore.scoreboard,
+                        score: playerStore.score,
                         timer: {
-                            ...playerStore.scoreboard.timer,
-                            time: playerStore.timer,
-                        }
+                            enabled: playerStore.timer.enabled
+                            time: playerStore.realTimer,
+                        },
+                        team_home: playerStore.team_home,
+                        team_away: playerStore.team_away,
                     }}
-                    sponsor={playerStore.sponsor}
+                    sponsor={playerStore.scoreboardSponsor}
                     forceScoreHidden={false}
                     competition={playerStore.competition}
                     onLoadSponsor={() => {}}
@@ -81,6 +84,9 @@ export default class App extends Component {
                     disabled={goalStore.disabled}
                     goal={goalStore.currentGoal}
                 />
+                {playerStore.playerSponsors !== false && (
+                    <Sponsors sponsors={playerStore.playerSponsors} />
+                )}
                 <CurrentTime time={playerStore.currentTimeInPlayer.toFixed(2)} />
             </div>
         )

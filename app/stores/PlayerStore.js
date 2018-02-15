@@ -5,14 +5,17 @@ import checkUrlInLogo from '../lib/checkUrlInLogo'
 const needsMatchInfo = true
 
 export default class PlayerStore {
-    @observable scoreboard = {
-        score: {},
-        timer: {},
-        team_away: {},
-        team_home: {},
-    }
+    @observable score = {}
+    @observable timer = {}
+    @observable team_away = {}
+    @observable team_home = {}
+    @observable eventId = false
+    @observable tvId = false
+    @observable competitionId = false
     @observable competition = false
-    @observable sponsor = false
+    @observable scoreboardSponsor = false
+    @observable playerSponsors = false
+
     check = null
     CastPlayer = null
 
@@ -20,28 +23,22 @@ export default class PlayerStore {
 
     constructor({ transportLayer }) {
         this.transportLayer = transportLayer
-        if (needsMatchInfo) {
-            this.fetchMatchInfo()
-        }
     }
 
     initialise() {
         if (!this.CastPlayer) {
             const playerDiv = document.getElementById('player')
-            this.CastPlayer = new sampleplayer.CastPlayer(playerDiv)
+            this.CastPlayer = new sampleplayer.CastPlayer(playerDiv, metaData => {
+                this.setMetaDataAndCustomData(metaData)
+            })
             this.CastPlayer.start()
-            // const mediaManager = new cast.receiver.MediaManager(this.CastPlayer.getMediaElement())
-            // mediaManager.onLoad = (info) => {
-            //     console.log('---------')
-            //     console.log(info)
-            // }
             this.check = requestAnimationFrame(() => this.getTimeFromPlayer())
         }
     }
 
     @computed
-    get timer() {
-        const { timer } = this.scoreboard
+    get realTimer() {
+        const { timer } = this
         if (timer.stopped) {
             return timer.time
         } else {
@@ -50,10 +47,36 @@ export default class PlayerStore {
         }
     }
 
-    async fetchMatchInfo() {
-        const response = await this.transportLayer.fetchMatchInfo()
+    async fetchMatchInfo(eventId) {
+        const response = await this.transportLayer.fetchMatchInfo(eventId)
         const json = await response.json()
         this.updateFromJson(json)
+    }
+
+    async fetchPlayerSponsors(tvId) {
+        const response = await this.transportLayer.fetchPlayerSponsors(tvId)
+        const json = await.response.json()
+        this.playerSponsors = json
+    }
+
+    @action.bound
+    setMetaDataAndCustomData({ metaData, customData }) {
+        if (metaData && metaData.tvId) {
+            this.tvId = metaData.tvId
+        }
+
+        if (metaData && metaData.competitionId) {
+            this.competitionId = metaData.competitionId
+        }
+
+        if (metaData && metaData.eventId) {
+            this.eventID = metaData.eventId
+            this.fetchMatchInfo(this.eventId)
+        }
+
+        if (this.tvId && this.competitionId) {
+            this.fetchPlayerSponsors(this.tvId, this.competitionId)
+        }
     }
 
     @action.bound
@@ -69,12 +92,12 @@ export default class PlayerStore {
 
     @action.bound
     updateFromJson(json) {
-        this.scoreboard.team_away = {
+        this.team_away = {
             ...json.match_data.team_away,
             logo: checkUrlInLogo(json.match_data.team_away.logo),
         }
 
-        this.scoreboard.team_home = {
+        this.team_home = {
             ...json.match_data.team_home,
             logo: checkUrlInLogo(json.match_data.team_home.logo),
         }
@@ -88,13 +111,13 @@ export default class PlayerStore {
 
     @action.bound
     reset() {
-        this.scoreboard.timer = {
+        this.timer = {
             time: 0,
             at: 0,
             enabled: false,
             stopped: true,
         }
-        this.scoreboard.score = {
+        this.score = {
             enabled: false,
             data: [ 0, 0 ],
         }
@@ -102,54 +125,54 @@ export default class PlayerStore {
 
     @action.bound
     timerShown(item, state) {
-        this.scoreboard.timer.enabled = true
+        this.timer.enabled = true
     }
 
     @action.bound
     timerHidden() {
-        this.scoreboard.timer.enabled = false
+        this.timer.enabled = false
     }
 
     @action.bound
     timerStarted(item) {
-        this.scoreboard.timer.time = item.data.elapsed
-        this.scoreboard.timer.at = item.offset
-        this.scoreboard.timer.stopped = false
+        this.timer.time = item.data.elapsed
+        this.timer.at = item.offset
+        this.timer.stopped = false
     }
 
     @action.bound
     timerStopped(item) {
-        this.scoreboard.timer.time = item.data.elapsed
-        this.scoreboard.timer.at = item.offset
-        this.scoreboard.timer.stopped = true
+        this.timer.time = item.data.elapsed
+        this.timer.at = item.offset
+        this.timer.stopped = true
     }
 
     @action.bound
     timerUpdated(item) {
-        this.scoreboard.timer.time = item.data.elapsed
-        this.scoreboard.timer.at = item.offset
+        this.timer.time = item.data.elapsed
+        this.timer.at = item.offset
     }
 
     @action.bound
     scoreShown() {
-        this.scoreboard.score.enabled = true
+        this.score.enabled = true
     }
 
     @action.bound
     scoreHidden() {
-        this.scoreboard.score.enabled = false
+        this.score.enabled = false
     }
 
     @action.bound
     scoreIncreased(item) {
         const team = item.data.team === 'home' ? 0 : 1
-        this.scoreboard.score.data[team] = this.scoreboard.score.data[team] + 1
+        this.score.data[team] = this.score.data[team] + 1
     }
 
     @action.bound
     scoreDecreased(item) {
         const team = item.data.team === 'home' ? 0 : 1
-        this.scoreboard.score.data[team] = this.scoreboard.score.data[team] - 1
+        this.score.data[team] = this.score.data[team] - 1
     }
 
     dispose() {

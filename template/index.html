@@ -82,7 +82,7 @@
              * @constructor
              * @export
              */
-            sampleplayer.CastPlayer = function(element) {
+            sampleplayer.CastPlayer = function(element, onLoadMetaDataCallback) {
 
               /**
                * The debug setting to control receiver, MPL and player logging.
@@ -93,6 +93,11 @@
                 cast.player.api.setLoggerLevel(cast.player.api.LoggerLevel.DEBUG);
                 cast.receiver.logger.setLevelValue(cast.receiver.LoggerLevel.DEBUG);
               }
+
+              /**
+               * helps with getting metadata
+               */
+              this.onLoadMetaDataCallback = onLoadMetaDataCallback
 
               /**
                * The DOM element the player is attached.
@@ -720,6 +725,7 @@
              */
             sampleplayer.CastPlayer.prototype.loadMetadata_ = function(media) {
               this.log_('loadMetadata_');
+              this.onLoadMetaDataCallback(media)
               if (!sampleplayer.isCastForAudioDevice_()) {
                 var metadata = media.metadata || {};
                 var titleElement = this.element_.querySelector('.media-title');

@@ -27,11 +27,18 @@ export default class TimelineStore {
     }
 
     setupReactions() {
+        // this fetches timeline when the time in player has changed
         // delay is debouncing
         this.fetchReaction = reaction(
             () => this.playerStore.currentTimeInPlayer,
             () => this.fetchTimeline(),
             { fireImmediately: true, delay: FETCH_DELAY },
+        )
+
+        // when the eventId has been fetched, update timeline too
+        this.fetchOnEventIdReaction = reaction(
+            () => this.playerStore.eventId,
+            () => this.fetchTimeline(),
         )
 
         // it's safe to compare .length since timeline does not remove events
@@ -61,7 +68,11 @@ export default class TimelineStore {
 
     async fetchTimeline() {
         try {
-            const response = await this.transportLayer.fetchTimeline()
+            if (!this.playerStore.eventId) {
+                return
+            }
+
+            const response = await this.transportLayer.fetchTimeline(this.playerStore.eventId)
             const timeline = await response.json()
             if (timeline.length !== this.timeline.length) {
                 this.timeline = timeline
@@ -87,6 +98,7 @@ export default class TimelineStore {
 
     dispose() {
         this.fetchReaction.dispose()
+        this.fetchOnEventIdReaction.dispose()
         this.parseTimelineReaction.dispose()
     }
 }

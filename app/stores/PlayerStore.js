@@ -12,6 +12,7 @@ export default class PlayerStore {
     @observable competition = false
     @observable sponsor = false
     check = null
+    player = null
 
     @observable currentTimeInPlayer = 0
 
@@ -21,9 +22,11 @@ export default class PlayerStore {
     }
 
     initialise = () => {
-        const playerDiv = document.getElementById('player')
-        new sampleplayer.CastPlayer(playerDiv).start()
-        this.check = requestAnimationFrame(() => this.getTimeFromPlayer())
+        if (!this.player) {
+            const playerDiv = document.getElementById('player')
+            this.player = new sampleplayer.CastPlayer(playerDiv).start()
+            this.check = requestAnimationFrame(() => this.getTimeFromPlayer())
+        }
     }
 
     @computed
@@ -46,9 +49,9 @@ export default class PlayerStore {
     @action.bound
     getTimeFromPlayer() {
         setTimeout(() => {
-            const video = document.querySelector('#player video')
-            if (video && video.currentTime) {
-                this.currentTimeInPlayer = video.currentTime
+            const { mediaElement_ } = this.player
+            if (mediaElement_.currentTime) {
+                this.currentTimeInPlayer = mediaElement_.currentTime
             }
             this.check = requestAnimationFrame(() => this.getTimeFromPlayer())
         }, 1000)

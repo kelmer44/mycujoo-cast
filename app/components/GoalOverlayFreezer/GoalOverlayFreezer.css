@@ -1,0 +1,14 @@
+.root {
+    position: absolute;
+    bottom: 32px;
+    left: 32px;
+    color: #fff;
+    font-weight: bold;
+    height: 62px;
+    overflow: hidden;
+}
+
+.rootWithSponsor {
+    composes: root;
+    height: calc(62px + 16px);
+}

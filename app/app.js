@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react'
+import React, { Component } from 'react'
 import { observer } from 'mobx-react'
 import Scoreboard from 'mycujoo-scoreboard'
 
@@ -7,7 +7,7 @@ import './app.css'
 
 import Player from './components/Player'
 import DebugPlayer from './components/DebugPlayer'
-import GoalOverlayContainer from './components/GoalOverlayContainer'
+import GoalOverlay from './components/GoalOverlayContainer'
 
 import PlayerStore from './stores/PlayerStore'
 import TimelineStore from './stores/TimelineStore'
@@ -27,7 +27,7 @@ window.goalStore = goalStore
 const showStatsForNerds = window.location.search.includes('statsForNerds')
 
 @observer
-export default class App extends PureComponent {
+export default class App extends Component {
     render() {
         return (
             <div data-player>
@@ -48,7 +48,7 @@ export default class App extends PureComponent {
                     onViewSponsor={() => {}}
                     onClickSponsor={() => {}}
                 />
-                <GoalOverlayContainer
+                <GoalOverlay
                     playerStore={{
                         currentTimeInPlayer: playerStore.currentTimeInPlayer,
                         timer: playerStore.timer,

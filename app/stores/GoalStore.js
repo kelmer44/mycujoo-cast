@@ -22,6 +22,7 @@ export default class GoalStore {
 
     @action.bound
     showGoal(isEmpty) {
+        console.log('showGoal', 'isEmpty', isEmpty)
         clearTimeout(this.timeout)
         if (isEmpty) {
             return this.disabled = true
@@ -29,6 +30,7 @@ export default class GoalStore {
 
         this.disabled = false
         this.timeout = setTimeout(() => {
+            console.log('disabled')
             this.disabled = true
         }, 7500)
     }
@@ -44,6 +46,7 @@ export default class GoalStore {
             this.playerStore.currentTimeInPlayer >= goal.offset + 3 &&
             this.playerStore.currentTimeInPlayer <= goal.offset + 3 + 20
         ) {
+            goal.currentTimeInPlayer = parseInt(this.playerStore.currentTimeInPlayer, 10)
             return goal
         }
 

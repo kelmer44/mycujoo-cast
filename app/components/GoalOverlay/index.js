@@ -1,18 +1,15 @@
 import React, { PureComponent } from 'react'
 import styles from './GoalOverlay.css'
 
-console.log(styles)
-
 import checkUrlInLogo from '../../lib/checkUrlInLogo'
 
 export default class GoalOverlay extends PureComponent {
     shouldComponentUpdate(nextProps) {
-        if (this.props.goal.id !== nextProps.goal.id) {
-            return true
+        if (nextProps.goal.id === this.props.goal.id) {
+            return false
         }
-        return false
+        return true
     }
-
     render() {
         const { goal, teams } = this.props
         const team = teams[goal.data.team]
@@ -38,15 +35,32 @@ export default class GoalOverlay extends PureComponent {
         const description = isOwnGoal ? 'OWN GOAL' : 'GOAL'
 
         const timer = this.props.playerStore.timer
-        const elapsedSecondsAfterHighlightHappened = this.props.playerStore.currentTimeInPlayer - goal.offset
-        const minute = Math.ceil((timer + 1 - elapsedSecondsAfterHighlightHappened) / 60)
+        const elapsedSecondsAfterHighlightHappened = goal.currentTimeInPlayer - goal.offset
+        const minuteFormatted = Math.ceil((timer + 1 - elapsedSecondsAfterHighlightHappened) / 60)
+        const minute = minuteFormatted === 0
+            ? minute
+            : `${minuteFormatted}'`
+
+        console.log('hello')
 
         return (
             <div className={styles.root}>
-                <img src={logoSrc} />
-                <p>{description}</p>
-                <p>{player}</p>
-                <p>{minute} {description}</p>
+                <div className={this.props.hasSponsor ? styles.containerWithSponsor : styles.containerWithoutSponsor}>
+                    <div className={styles.teamColor} style={{ backgroundColor: 'pink' }} />
+                    <div className={styles.infoWrapper}>
+                        <div className={styles.logoContainer}>
+                            <img className={styles.logo} src={logoSrc} />
+                        </div>
+                        <div className={styles.info}>
+                            <div className={styles.icon}>O</div>
+                            <div className={styles.seperator} />
+                            <p>{minute} {description}</p>
+                        </div>
+                        <div className={styles.player}>
+                            {player}
+                        </div>
+                    </div>
+                </div>
             </div>
         )
     }

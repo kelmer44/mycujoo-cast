@@ -49,7 +49,7 @@ export default class Player extends PureComponent {
 
     componentDidMount() {
         // some code
-        var playerDiv = document.getElementById('player')
-        new sampleplayer.CastPlayer(playerDiv).start()
+        // var playerDiv = document.getElementById('player')
+        // new sampleplayer.CastPlayer(playerDiv).start()
     }
 }

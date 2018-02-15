@@ -1,6 +1,8 @@
 import React, { PureComponent } from 'react'
 import styles from './GoalOverlay.css'
 
+console.log(styles)
+
 import checkUrlInLogo from '../../lib/checkUrlInLogo'
 
 export default class GoalOverlay extends PureComponent {

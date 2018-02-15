@@ -1,20 +1,20 @@
-.background {
-  background: center no-repeat url(./assets/background.png);
+:global .background {
+    background: center no-repeat url(./assets/background.png);
 }
 
-.logo {
-  background-image: url(./assets/logo.png);
+:global .logo {
+    background-image: url(./assets/logo.png);
 }
 
-.progressBar {
-  background-color: #00CC7B;
+:global .progressBar {
+    background-color: #00CC7B;
 }
 
-.splash {
-  background-image: url(./assets/logo.png);
+:global .splash {
+    background-image: url(./assets/logo.png);
 }
 
-.watermark {
-  background-image: url(./assets/watermark.png);
-  background-size: 57px 57px;
+:global .watermark {
+    background-image: url(./assets/watermark.png);
+    background-size: 57px 57px;
 }

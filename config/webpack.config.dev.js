@@ -10,7 +10,7 @@ loaders.push({
     test: /\.css$/,
     use: [
         { loader: 'style-loader', options: { insertInto: 'body' } },
-        { loader: 'css-loader' },
+        { loader: 'css-loader', options: { modules: true, localIdentName: '[name]_[local]_[hash:base64]', importLoaders: 1 } },
     ],
 })
 

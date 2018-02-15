@@ -1,110 +1,28 @@
-
-  #messages {
+.messages {
     color: #FFFFFF;
-    float: left;
-    margin-left: 25px;
-    margin-top: 250px;
-
     z-index: 2;
     position: absolute;
-    font-weight: bold;
-    width: 1000PX;
-    background-color: rgba(0, 0, 0, 0.5);
-  }
+    bottom: 16px;
+    left: 16px;
+    font-weight: 600;
+    width: auto;
+    background-color: rgba(0, 0, 0, 0.66);
+    font-size: 16px;
+    padding: 8px;
+}
 
-  #messages span {
-    font-weight: normal;
-  }
-
-
-  #scoreboard {
-    border-radius: 5;
-    z-index: 2;
-    position: absolute;
-    margin-left: 25px;
-    margin-top: 25px;
-    color: black;
-    display: grid;
-    font-size: 25px;
-  }
-
-
-  #score * {
+.message {
     display: flex;
-    vertical-align: middle;
-    /* height: 100%; */
-    text-align: center;
-    align-items: center;
-    justify-content: center;
-  }
+    justify-content: space-between;
+    padding: 4px;
+}
 
-  #score {
-    display: flex;
-    height: 35px;
-  }
+.title {
+    composes: message;
+    font-size: 22px;
+    padding: 4px 4px 12px 4px;
+}
 
-  #timer-container {
-    height: 35px;
-    margin: auto;
-    display: flex;
-    align-items: center;
-    background-color: #00CC7B;
-    color: white;
-    border-radius: 0px 0px 3px 3px;
-    justify-content: center;
-  }
-
-  #timer {
-
-    padding: 0px 10px;
-
-    text-align: center;
-    margin: auto;
-    display: flex;
-    align-items: center;
-    background-color: #00CC7B;
-    color: white;
-    border-radius: 0px 0px 3px 3px;
-    justify-content: center;
-  }
-
-
-  .score.local_score {
-    border-left: 1px solid #aaa;
-    border-right: 1px solid #aaa;
-  }
-
-  .score.away_score {
-    border-right: 1px solid #aaa;
-  }
-
-  .team {
-    width: 75px;
-    background-color: #F2F3F4;
-    text-align: center;
-    color: #aaa;
-    vertical-align: middle;
-  }
-
-  .score {
-    background-color: white;
-    display: block;
-    text-align: center;
-    vertical-align: top;
-    width: 30px;
-  }
-
-  .color-badge {
-    width: 10px;
-    height: auto;
-  }
-
-  .color-badge.local_color {
-    background-color: red;
-    border-radius: 3px 0px 0px 3px;
-  }
-
-  .color-badge.away_color {
-    background-color: green;
-    border-radius: 0px 3px 3px 0px;
-  }
+.value {
+    font-weight: 400;
+}

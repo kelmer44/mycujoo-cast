@@ -62,7 +62,10 @@ export default class TimelineStore {
     async fetchTimeline() {
         try {
             const response = await this.transportLayer.fetchTimeline()
-            this.timeline = await response.json()
+            const timeline = await response.json()
+            if (timeline.length !== this.timeline.length) {
+                this.timeline = timeline
+            }
         } catch (e) {
             console.error('Booo', e)
         }

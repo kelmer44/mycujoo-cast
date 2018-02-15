@@ -37,7 +37,7 @@ body {
 }
 
 .player {
-  background-image: url("assets/background.png");
+  background-image: url("./background.png");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -82,7 +82,7 @@ body {
     position: absolute;
     top: 15%;
     left: 15%;
-    background-image: url("assets/mycujoo-logo-ball.svg");
+    background-image: url("./mycujoo-logo-ball.svg");
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
@@ -90,7 +90,7 @@ body {
 }
 
 .player .placeholder-image {
-  background-image: url("assets/placeholder-audio.jpg");
+  background-image: url("./placeholder-audio.jpg");
 }
 
 .player .gradient {
@@ -197,7 +197,7 @@ body {
   background-position: bottom right;
   background-repeat: no-repeat;
   margin-bottom: 54px;
-  background-image: url("assets/watermark.png");
+  background-image: url("./watermark.png");
 }
 
 .player .gradient {
@@ -284,7 +284,7 @@ body {
     position: absolute;
     top: 15%;
     left: 15%;
-    background-image: url("assets/mycujoo-logo-ball.svg");
+    background-image: url("./mycujoo-logo-ball.svg");
     background-size: cover;
     background-position: bottom;
     background-repeat: no-repeat;
@@ -358,7 +358,7 @@ body {
   width: 32px;
   display: block;
   position: absolute;
-  background-image: url("assets/buffering.png");
+  background-image: url("./buffering.png");
   bottom: 64px;
   left: 50%;
   margin-left: 32px / -2;
@@ -410,7 +410,7 @@ body {
 }
 
 .player[type="video"][state="buffering"] .controls-play-pause {
-  background-image: url("assets/buffering.png");
+  background-image: url("./buffering.png");
   -webkit-animation: spin 1s infinite linear;
 }
 
@@ -447,7 +447,7 @@ body {
 }
 
 .player[type="video"][state="paused"] .controls-play-pause {
-  background-image: url("assets/paused.png");
+  background-image: url("./paused.png");
 }
 
 .player[type="video"][state="paused"] .controls,
@@ -515,7 +515,7 @@ body {
 }
 
 .player[type="video"][state="playing"] .controls-play-pause {
-  background-image: url("assets/buffering.png");
+  background-image: url("./buffering.png");
   -webkit-animation: spin 1s infinite linear;
 }
 
@@ -570,7 +570,7 @@ body {
   box-shadow: 0px 0px 10px 5px rgba(0, 0, 0, 0.3);
   width: 384px;
   max-width: 384px;
-  background-image: url("assets/placeholder-audio.jpg");
+  background-image: url("./placeholder-audio.jpg");
 }
 
 .player[type="audio"] .media-text {
@@ -618,7 +618,7 @@ body {
 
 .player[type="audio"][state="paused"] .controls-play-pause {
   display: block;
-  background-image: url("assets/paused.png");
+  background-image: url("./paused.png");
 }
 
 .player[type="audio"][state="loading"] .controls-play-pause {
@@ -749,5 +749,5 @@ body {
 }
 
 .player[state="done"] {
-  background-image: url('assets/done.png');
+  background-image: url('./done.png');
 }

@@ -30,11 +30,11 @@ export default class PlayerStore {
             const playerDiv = document.getElementById('player')
             this.CastPlayer = new sampleplayer.CastPlayer(playerDiv)
             this.CastPlayer.start()
-            // const mediaManager = new cast.receiver.MediaManager(this.CastPlayer.getMediaElement())
-            // mediaManager.onLoad = (info) => {
-            //     console.log('---------')
-            //     console.log(info)
-            // }
+            const mediaManager = new cast.receiver.MediaManager(this.CastPlayer.getMediaElement())
+            mediaManager.onLoad = (info) => {
+                console.log('---------')
+                console.log(info)
+            }
             this.check = requestAnimationFrame(() => this.getTimeFromPlayer())
         }
     }

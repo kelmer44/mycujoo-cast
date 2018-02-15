@@ -1,9 +1,9 @@
 :global .background {
-    background: center no-repeat url(./assets/background.png);
+    background: center no-repeat url(./background.png);
 }
 
 :global .logo {
-    background-image: url(./assets/logo.png);
+    background-image: url(./logo.png);
 }
 
 :global .progressBar {
@@ -11,10 +11,10 @@
 }
 
 :global .splash {
-    background-image: url(./assets/logo.png);
+    background-image: url(./logo.png);
 }
 
 :global .watermark {
-    background-image: url(./assets/watermark.png);
+    background-image: url(./watermark.png);
     background-size: 57px 57px;
 }

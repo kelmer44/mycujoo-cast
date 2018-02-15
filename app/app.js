@@ -24,13 +24,15 @@ window.playerStore = playerStore
 window.timelineStore = timelineStore
 window.goalStore = goalStore
 
+const showStatsForNerds = window.location.search.includes('statsForNerds')
+
 @observer
 export default class App extends PureComponent {
     render() {
         return (
             <div data-player>
                 <Player />
-                <DebugPlayer />
+                {showStatsForNerds && <DebugPlayer />}
                 <Scoreboard
                     metaData={{
                         ...playerStore.scoreboard,

@@ -7,12 +7,12 @@ import Freeze from '../../lib/components/Freeze'
 
 export default class GoalOverlayFreezer extends PureComponent {
     render() {
-        const { style, hasSponsor = false, ...rest } = this.props
+        const { style, hasSponsor = false, goal, ...rest } = this.props
         return (
             <div className={hasSponsor ? styles.rootWithSponsor : styles.root}>
                 <div style={{ height: `${style.height}%` }}>
                     <Freeze
-                      value={this.props.goal}
+                      value={goal}
                       visible={!this.props.disabled}
                     >
                         {goal => {

@@ -73,14 +73,9 @@ export default class App extends Component {
                     onClickSponsor={() => {}}
                 />
                 <GoalOverlay
-                    playerStore={{
-                        currentTimeInPlayer: playerStore.currentTimeInPlayer,
-                        timer: playerStore.timer,
-                    }}
-                    teams={{
-                        home: playerStore.scoreboard.team_home,
-                        away: playerStore.scoreboard.team_away,
-                    }}
+                    timer={playerStore.realTimer}
+                    teamHome={playerStore.team_home}
+                    teamAway={playerStore.team_away}
                     disabled={goalStore.disabled}
                     goal={goalStore.currentGoal}
                 />

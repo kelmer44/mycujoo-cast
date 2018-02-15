@@ -282,7 +282,7 @@ body {
   position: relative;
 }
 
-.player .preview-mode-artwork {
+.player .preview-mode-artwork:after {
     content: '';
     width: 70%;
     height: 70%;

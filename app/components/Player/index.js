@@ -48,6 +48,6 @@ export default class Player extends PureComponent {
 
 
     componentDidMount() {
-        this.props.initialise()
+        this.props.playerStore.initialise()
     }
 }

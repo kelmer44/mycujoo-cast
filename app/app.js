@@ -32,7 +32,7 @@ export default class App extends Component {
     render() {
         return (
             <div data-player>
-                <Player initialise={playerStore.initialise} />
+                <Player playerStore={playerStore} />
                 {showStatsForNerds && <DebugPlayer />}
                 <Scoreboard
                     metaData={{

@@ -62,11 +62,36 @@ body {
   position: absolute;
   bottom: 50%;
   left: 50%;
-  background-image: url("assets/logo.png");
   margin-bottom: -96px;
   margin-left: -96px;
   width: 192px;
   height: 192px;
+  border-radius: 50%;
+  background: #222224;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.player .logo:after {
+    content: '';
+    width: 70%;
+    height: 70%;
+    position: absolute;
+    top: 15%;
+    left: 15%;
+    background-image: url("assets/mycujoo-logo-ball.svg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    animation: spin 1.2s ease infinite 1.5s;
 }
 
 .player .placeholder-image {
@@ -246,16 +271,29 @@ body {
 }
 
 .player .preview-mode-artwork {
-  background-image: url("assets/logo.png");
-  background-size: cover;
-  background-position: bottom;
-  background-repeat: no-repeat;
   align-self: flex-end;
   height: 143px;
   margin-right: 32px;
   min-width: 96px;
   max-width: 266px;
   width: 100%;
+  border-radius: 50%;
+  background: #222224;
+  position: relative;
+}
+
+.player .preview-mode-artwork {
+    content: '';
+    width: 70%;
+    height: 70%;
+    position: absolute;
+    top: 15%;
+    left: 15%;
+    background-image: url("assets/mycujoo-logo-ball.svg");
+    background-size: cover;
+    background-position: bottom;
+    background-repeat: no-repeat;
+    animation: spin 1.2s ease infinite 1.5s;
 }
 
 .player .preview-mode-info .preview-mode-text {

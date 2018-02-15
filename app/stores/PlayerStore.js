@@ -55,22 +55,27 @@ export default class PlayerStore {
 
     async fetchPlayerSponsors(tvId) {
         const response = await this.transportLayer.fetchPlayerSponsors(tvId)
-        const json = await.response.json()
-        this.playerSponsors = json
+        const json = await response.json()
+        this.playerSponsors = json[0].campaign_spots
+            .concat()
+            .filter(spot => spot.slug.startsWith('tv-header'))
     }
 
     @action.bound
     setMetaDataAndCustomData({ metaData, customData }) {
-        if (metaData && metaData.tvId) {
-            this.tvId = metaData.tvId
+        if (customData && customData.mAdsMetaData) {
+            if (customData.mAdsMetaData.channelId) {
+                this.tvId = parseInt(customData.mAdsMetaData.channelId, 10)
+            }
+            if (customData.mAdsMetaData.competitionId) {
+                this.competitionId = parseInt(customData.mAdsMetaData.competitionId, 10)
+            }
+            if (customData.mAdsMetaData.eventId) {
+                this.eventId = parseInt(customData.mAdsMetaData.eventId, 10)
+            }
         }
 
-        if (metaData && metaData.competitionId) {
-            this.competitionId = metaData.competitionId
-        }
-
-        if (metaData && metaData.eventId) {
-            this.eventID = metaData.eventId
+        if (this.eventID) {
             this.fetchMatchInfo(this.eventId)
         }
 

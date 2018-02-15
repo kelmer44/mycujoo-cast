@@ -1,0 +1,21 @@
+.root {
+    position: absolute;
+    z-index: 2;
+    top: 32px;
+    right: 32px;
+    display: flex;
+    border-radius: 4px;
+    background: #fff;
+    display: flex;
+    overflow: hidden;
+}
+
+.spot {
+
+}
+
+.image {
+    height: 100%;
+    width: auto;
+    object-fit: contain;
+}

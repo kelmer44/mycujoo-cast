@@ -59,7 +59,7 @@ export default class App extends Component {
                     metaData={{
                         score: playerStore.score,
                         timer: {
-                            enabled: playerStore.timer.enabled
+                            enabled: playerStore.timer.enabled,
                             time: playerStore.realTimer,
                         },
                         team_home: playerStore.team_home,

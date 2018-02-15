@@ -26,8 +26,8 @@ export default class PlayerStore {
     initialise() {
         if (!this.CastPlayer) {
             const playerDiv = document.getElementById('player')
-            this.CastPlayer = new sampleplayer.CastPlayer(playerDiv, metaData => {
-                this.setMetaDataAndCustomData(metaData)
+            this.CastPlayer = new sampleplayer.CastPlayer(playerDiv, info => {
+                this.setMetaDataAndCustomData(info)
             })
             this.CastPlayer.start()
         }
@@ -57,9 +57,6 @@ export default class PlayerStore {
         const response = await this.transportLayer.fetchPlayerSponsors(tvId, competitionId)
         const json = await response.json()
 
-        console.log(json)
-        json && json.campaign_spots && console.log(json.campaign_spots)
-
         if (json.campaign_spots && json.campaign_spots.length !== 0) {
             const playerSponsors = json.campaign_spots[0]
                 .concat()
@@ -72,7 +69,7 @@ export default class PlayerStore {
     }
 
     @action.bound
-    setMetaDataAndCustomData({ metaData, customData }) {
+    setMetaDataAndCustomData({ customData }) {
         if (customData && customData.mAdsMetaData) {
             if (customData.mAdsMetaData.channelId) {
                 this.tvId = parseInt(customData.mAdsMetaData.channelId, 10)
@@ -85,7 +82,7 @@ export default class PlayerStore {
             }
         }
 
-        if (this.eventID) {
+        if (this.eventId) {
             this.fetchMatchInfo(this.eventId)
         }
 

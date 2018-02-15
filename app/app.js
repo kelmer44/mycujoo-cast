@@ -25,7 +25,27 @@ window.playerStore = playerStore
 window.timelineStore = timelineStore
 window.goalStore = goalStore
 
-const showStatsForNerds = window.location.search.includes('statsForNerds')
+const showStatsForNerds = true // window.location.search.includes('statsForNerds')
+const showCurrentTime = true
+
+const CurrentTime = ({ time }) => {
+    return (
+        <div style={{
+            position: 'absolute',
+            top: '16px',
+            right: '16px',
+            zIndex: 10,
+            borderRadius: '4px',
+            background: 'white',
+            color: '#222224',
+            padding: '4px 16px',
+            fontSize: '22px',
+            textAlign: 'center',
+        }}>
+            {time}
+        </div>
+    )
+}
 
 @observer
 export default class App extends Component {
@@ -61,6 +81,7 @@ export default class App extends Component {
                     disabled={goalStore.disabled}
                     goal={goalStore.currentGoal}
                 />
+                <CurrentTime time={playerStore.currentTimeInPlayer} />
             </div>
         )
     }

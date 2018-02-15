@@ -3,6 +3,8 @@ import styles from './GoalOverlay.css'
 
 import checkUrlInLogo from '../../lib/checkUrlInLogo'
 
+import Icon from './Icon.svg'
+
 export default class GoalOverlay extends PureComponent {
     shouldComponentUpdate(nextProps) {
         if (nextProps.goal.id === this.props.goal.id) {
@@ -52,7 +54,7 @@ export default class GoalOverlay extends PureComponent {
                             <img className={styles.logo} src={logoSrc} />
                         </div>
                         <div className={styles.info}>
-                            <div className={styles.icon}>O</div>
+                            <div className={styles.iconContainer}><img src={Icon} className={styles.icon} /></div>
                             <div className={styles.seperator} />
                             <p>{minute} {description}</p>
                         </div>

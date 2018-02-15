@@ -54,12 +54,17 @@
     padding: 0 8px;
 }
 
-.icon {
+.iconContainer {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 32px;
-    height: 32px;
+    padding: 0 8px;
+}
+
+.icon {
+    width: 26px;
+    height: 26px;
+    object-fit: contain;
 }
 
 .seperator {

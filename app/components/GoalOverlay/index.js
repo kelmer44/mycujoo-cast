@@ -32,7 +32,7 @@ export default class GoalOverlay extends PureComponent {
             ? logo
             : checkUrlInLogo(logo, 70)
 
-        const color = team ? team.color : '#fff'
+        const backgroundColor = team ? team.color : '#0BD280'
 
         const description = isOwnGoal ? 'OWN GOAL' : 'GOAL'
 
@@ -43,12 +43,10 @@ export default class GoalOverlay extends PureComponent {
             ? minute
             : `${minuteFormatted}'`
 
-        console.log('hello')
-
         return (
             <div className={styles.root}>
                 <div className={this.props.hasSponsor ? styles.containerWithSponsor : styles.containerWithoutSponsor}>
-                    <div className={styles.teamColor} style={{ backgroundColor: 'pink' }} />
+                    <div className={styles.teamColor} style={{ backgroundColor }} />
                     <div className={styles.infoWrapper}>
                         <div className={styles.logoContainer}>
                             <img className={styles.logo} src={logoSrc} />

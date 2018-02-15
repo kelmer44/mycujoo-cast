@@ -3,8 +3,6 @@ import { Motion, spring } from 'react-motion'
 
 import GoalOverlayFreezer from '../GoalOverlayFreezer'
 
-import styles from './GoalOverlayContainer.css'
-
 const settings = { stiffness: 120, damping: 19 }
 
 export default class GoalOverlayContainer extends PureComponent {

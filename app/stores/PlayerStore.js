@@ -2,8 +2,6 @@ import { observable, computed, action } from 'mobx'
 
 import checkUrlInLogo from '../lib/checkUrlInLogo'
 
-const needsMatchInfo = true
-
 export default class PlayerStore {
     @observable score = {}
     @observable timer = {}

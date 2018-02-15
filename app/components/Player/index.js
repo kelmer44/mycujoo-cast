@@ -1,5 +1,4 @@
 import React, { PureComponent } from 'react'
-import sampleplayer from './player.js'
 
 export default class Player extends PureComponent {
     render() {
@@ -45,7 +44,6 @@ export default class Player extends PureComponent {
             </div>
         )
     }
-
 
     componentDidMount() {
         this.props.playerStore.initialise()

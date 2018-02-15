@@ -15,6 +15,7 @@ export default class PlayerStore {
     @observable playerSponsors = false
 
     check = null
+    checkTimeout = null
     CastPlayer = null
 
     @observable currentTimeInPlayer = 0
@@ -93,7 +94,7 @@ export default class PlayerStore {
 
     @action.bound
     getTimeFromPlayer() {
-        setTimeout(() => {
+        this.checkTimeout = setTimeout(() => {
             const mediaElement = this.CastPlayer.getMediaElement()
             if (mediaElement && mediaElement.currentTime) {
                 this.currentTimeInPlayer = mediaElement.currentTime
@@ -190,5 +191,7 @@ export default class PlayerStore {
     dispose() {
         cancelAnimationFrame(this.check)
         this.check = null
+        clearTimeout(this.checkTimeout)
+        this.checkTimeout = null
     }
 }

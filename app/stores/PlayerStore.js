@@ -28,14 +28,13 @@ export default class PlayerStore {
 
     @computed
     get timer() {
-        const { stopped, time, at } = this.scoreboard.timer
-
-        if (stopped) {
-            return time
+        const { timer } = this.scoreboard
+        if (timer.stopped) {
+            return timer.time
+        } else {
+            const delta = this.currentTimeInPlayer - timer.at
+            return timer.time + delta
         }
-
-        const delta = this.currentTimeInPlayer - at
-        return time + delta
     }
 
     async fetchMatchInfo() {

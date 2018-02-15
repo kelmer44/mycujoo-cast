@@ -23,11 +23,13 @@ export default class GoalStore {
     @action.bound
     showGoal(isEmpty) {
         clearTimeout(this.timeout)
+
         if (isEmpty) {
             return this.disabled = true
         }
 
         this.disabled = false
+
         this.timeout = setTimeout(() => {
             this.disabled = true
         }, 7500)

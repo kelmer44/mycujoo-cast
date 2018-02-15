@@ -293,7 +293,6 @@ body {
     background-size: cover;
     background-position: bottom;
     background-repeat: no-repeat;
-    animation: spin 1.2s ease infinite 1.5s;
 }
 
 .player .preview-mode-info .preview-mode-text {

@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { observer } from 'mobx-react'
+import { observable } from 'mobx'
 import Scoreboard from 'mycujoo-scoreboard'
 
 import '../assets/cast.css'
@@ -22,12 +23,15 @@ const playerStore = new PlayerStore({ transportLayer })
 const timelineStore = new TimelineStore({ transportLayer, playerStore })
 const goalStore = new GoalStore({ playerStore, timelineStore })
 
+const show = observable({
+    statsForNerds: false,
+    currentTime: false,
+})
+
 window.playerStore = playerStore
 window.timelineStore = timelineStore
 window.goalStore = goalStore
-
-const showStatsForNerds = window.location.search.includes('statsForNerds')
-const showCurrentTime = true
+window.show = show
 
 const CurrentTime = ({ time }) => {
     return (
@@ -54,7 +58,7 @@ export default class App extends Component {
         return (
             <div data-player>
                 <Player playerStore={playerStore} />
-                {showStatsForNerds && <DebugPlayer />}
+                {show.statsForNerds && <DebugPlayer />}
                 <Scoreboard
                     metaData={{
                         score: playerStore.score,
@@ -82,7 +86,7 @@ export default class App extends Component {
                 {playerStore.playerSponsors !== false && (
                     <Sponsors sponsors={playerStore.playerSponsors} />
                 )}
-                <CurrentTime time={playerStore.currentTimeInPlayer.toFixed(2)} />
+                {show.currentTime && <CurrentTime time={playerStore.currentTimeInPlayer.toFixed(2)} />}
             </div>
         )
     }

@@ -17,7 +17,6 @@ export default class PlayerStore {
     highlightId = false
     type = null
 
-    check = null
     checkTimeout = null
     CastPlayer = null
 
@@ -37,9 +36,10 @@ export default class PlayerStore {
             })
             this.CastPlayer.start()
         }
-        if (!this.check) {
-            this.check = requestAnimationFrame(() => this.getTimeFromPlayer())
-        }
+
+        // clear any previous listeners or checks
+        this.dispose()
+        this.getTimeFromPlayer()
     }
 
     @computed
@@ -140,7 +140,7 @@ export default class PlayerStore {
                 this.currentTimeInPlayer = mediaElement.currentTime
                 console.log('[PlayerStore.js:getTimeFromPlayer]', 'currentTimeInPlayer', this.currentTimeInPlayer)
             }
-            this.check = requestAnimationFrame(() => this.getTimeFromPlayer())
+            this.getTimeFromPlayer()
         }, 1000)
     }
 
@@ -226,8 +226,6 @@ export default class PlayerStore {
     }
 
     dispose() {
-        cancelAnimationFrame(this.check)
-        this.check = null
         clearTimeout(this.checkTimeout)
         this.checkTimeout = null
     }

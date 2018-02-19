@@ -112,7 +112,7 @@ body {
 }
 
 .player .media-info {
-  padding-bottom: 54px;
+  padding-bottom: 64px;
   display: flex;
   align-items: center;
   overflow: hidden;
@@ -122,12 +122,13 @@ body {
   background-size: contain;
   background-position: center;
   background-repeat: no-repeat;
-  align-self: flex-end;
   height: 143px;
   margin-right: 32px;
   min-width: 96px;
-  max-width: 266px;
+  max-width: 256px;
   width: 100%;
+  border-radius: 4px;
+  overflow: hidden;
 }
 
 .player .media-text {
@@ -160,7 +161,7 @@ body {
 .player .controls {
   display: none;
   bottom: 0;
-  height: 30px;
+  height: 32px;
   left: 0;
   position: absolute;
   right: 0;
@@ -170,9 +171,9 @@ body {
   background-size: cover;
   border: 0;
   float: left;
-  height: 36px;
-  margin-left: -4px;
-  margin-top: -3px;
+  height: 32px;
+  margin-left: 0;
+  margin-top: 0;
   width: 32px;
 }
 
@@ -216,8 +217,7 @@ body {
 .player .controls-progress {
   background-color: rgba(255, 255, 255, 0.2);
   height: 8px;
-  margin-top: 11px;
-  margin-bottom: 11px;
+  margin-top: 12px;
   overflow: hidden;
   position: relative;
 }

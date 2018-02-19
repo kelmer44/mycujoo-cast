@@ -33,9 +33,9 @@
 /* ------------------------------------------------- */
 
 body {
-    background-color: #000000;
-    background-image: -webkit-linear-gradient(top, #000000, #222224); /* Chrome 10-25, iOS 5+, Safari 5.1+ */
-    background-image:         linear-gradient(to bottom, #000000, #222224); /* Chrome 26, Firefox 16+, IE 10+, Opera */
+    background-color: #222224;
+    background-image: -webkit-linear-gradient(top, #222224, #353537); /* Chrome 10-25, iOS 5+, Safari 5.1+ */
+    background-image:         linear-gradient(to bottom, #222224, #353537); /* Chrome 26, Firefox 16+, IE 10+, Opera */
 }
 
 .player {

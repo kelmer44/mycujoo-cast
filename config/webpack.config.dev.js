@@ -26,7 +26,7 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, '..', './public/'),
     pathinfo: true,
-    filename: 'hello.js',
+    filename: 'hithere.js',
     publicPath: '/',
   },
   devtool: 'eval',

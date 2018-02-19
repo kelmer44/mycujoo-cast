@@ -42,7 +42,7 @@ export default class GoalStore {
             .reverse()
             .find(item => item.data && item.data.type === 'goal')
 
-        const { offset } = playerStore.timer
+        const { offset } = this.playerStore.timer
 
         if (goal && goal.offset &&
             this.playerStore.currentTimeInPlayer >= goal.offset + offset + 3 &&

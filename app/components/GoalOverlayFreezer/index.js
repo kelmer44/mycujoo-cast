@@ -12,8 +12,8 @@ export default class GoalOverlayFreezer extends PureComponent {
             <div className={hasSponsor ? styles.rootWithSponsor : styles.root}>
                 <div style={{ height: `${style.height}%` }}>
                     <Freeze
-                      value={goal}
-                      visible={!this.props.disabled}
+                        value={goal}
+                        visible={!this.props.disabled}
                     >
                         {goal => {
                             if (goal.id === -1) {

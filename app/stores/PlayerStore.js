@@ -35,8 +35,8 @@ export default class PlayerStore {
                 console.log('[PlayerStore.js:initialising', 'payload', payload)
                 this.initialiseWithPayload(payload)
             })
+            this.CastPlayer.start()
         }
-        this.CastPlayer.start()
         if (!this.check) {
             this.check = requestAnimationFrame(() => this.getTimeFromPlayer())
         }
@@ -59,6 +59,7 @@ export default class PlayerStore {
         const response = await this.transportLayer.fetchPlayerSponsors(tvId, competitionId)
         const json = await response.json()
         const [ campaign = {} ] = json
+
         console.log('[PlayerStore.js:fetchPlayerSponsors]', 'campaign', campaign  )
 
         if (campaign.campaign_spots && campaign.campaign_spots.length !== 0) {
@@ -92,9 +93,9 @@ export default class PlayerStore {
             ? 'HIGHLIGHT'
             : 'EVENT'
 
-        console.log('[PlayerStore.js:initialiseWithPayload]', 'payload', payload, 'type', type)
+        console.log('[PlayerStore.js:initialiseWithPayload]', 'payload', payload, 'type', this.type)
 
-        if (type === 'HIGHLIGHT') {
+        if (this.type === 'HIGHLIGHT') {
             const needsUpdate = this.highlightId !== metadata.highlightId
             console.log('[PlayerStore.js:initialiseWithPayload]', 'needsUpdateHIGHLIGHT', needsUpdate)
 

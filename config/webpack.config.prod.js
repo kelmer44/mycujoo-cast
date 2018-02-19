@@ -38,7 +38,7 @@ module.exports = ({ analyse }) => {
                 keepClosingSlash: true,
             }
         }),
-        new ExtractTextPlugin("styles.css"),
+        new ExtractTextPlugin('styles.css'),
         new webpack.optimize.OccurrenceOrderPlugin(),
         new webpack.NoEmitOnErrorsPlugin(),
         new webpack.HashedModuleIdsPlugin(),
@@ -60,8 +60,9 @@ module.exports = ({ analyse }) => {
         }),
         new webpack.DefinePlugin({
             'process.env': {
-                'NODE_ENV': JSON.stringify('production')
-            }
+                NODE_ENV: JSON.stringify('production')
+            },
+            'DEV': false,
         }),
     ]
 

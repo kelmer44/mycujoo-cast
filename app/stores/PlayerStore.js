@@ -64,6 +64,18 @@ export default class PlayerStore {
 
             if (playerSponsors.length !== 0) {
                 this.playerSponsors = playerSponsors
+            } else {
+                this.playerSponsors = false
+            }
+
+            const scoreboardSponsor = campaign.campaign_spots
+                .concat()
+                .find(spot => spot.slug === 'scoreboard')
+
+            if (scoreboardSponsor) {
+                this.scoreboardSponsor = scoreboardSponsor
+            } else {
+                this.scoreboardSponsor = false
             }
         }
     }
@@ -81,6 +93,9 @@ export default class PlayerStore {
             this.updateFromJson(json)
             if(json.tv_id && json.competition_id) {
                 this.fetchPlayerSponsors(json.tv_id, json.competition_id)
+            } else {
+                this.playerSponsors = false
+                this.scoreboardSponsor = false
             }
         }
     }

@@ -101,22 +101,22 @@ export default class PlayerStore {
 
             if (needsUpdate) {
                 this.highlightId = parseInt(metadata.highlightId, 10)
-                this.eventId = null
 
                 const response = await this.transportLayer.fetchHighlightInfo(this.highlightId)
                 const json = await response.json()
+
                 this.eventId = json.event_id
                 this.timer.offset = json.meta_data.offset
                 this.timer.matchTime = json.meta_data.match_time
             }
         } else {
             this.highlightId = null
-            this.eventId = metadata.eventId
             this.timer.offset = 0
             this.timer.matchTime = 0
         }
 
-        const needsUpdate = metadata.eventId && this.eventId !== metadata.eventId
+        const needsUpdate = this.eventId !== metadata.eventId
+        this.eventId = metadata.eventId
         console.log('[PlayerStore.js:initialiseWithPayload]', 'needsUpdate', needsUpdate)
 
         if (needsUpdate) {

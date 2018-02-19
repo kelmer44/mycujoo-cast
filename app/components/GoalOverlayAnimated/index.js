@@ -5,7 +5,7 @@ import GoalOverlayFreezer from '../GoalOverlayFreezer'
 
 const settings = { stiffness: 120, damping: 19 }
 
-export default class GoalOverlayContainer extends PureComponent {
+export default class GoalOverlayAnimated extends PureComponent {
     render() {
         return (
             <Motion

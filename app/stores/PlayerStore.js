@@ -25,13 +25,14 @@ export default class PlayerStore {
     }
 
     initialise() {
-        if (!this.CastPlayer) {
-            const playerDiv = document.getElementById('player')
-            this.CastPlayer = new sampleplayer.CastPlayer(playerDiv, info => {
-                this.setMetaDataAndCustomData(info)
-            })
-            this.CastPlayer.start()
+        if (this.CastPlayer) {
+            this.CastPlayer = null
         }
+        const playerDiv = document.getElementById('player')
+        this.CastPlayer = new sampleplayer.CastPlayer(playerDiv, info => {
+            this.setMetaDataAndCustomData(info)
+        })
+        this.CastPlayer.start()
         if (!this.check) {
             this.check = requestAnimationFrame(() => this.getTimeFromPlayer())
         }

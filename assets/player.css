@@ -33,14 +33,12 @@
 /* ------------------------------------------------- */
 
 body {
-  background-color: #000;
+    background-color: #000000;
+    background-image: -webkit-linear-gradient(top, #000000, #222224); /* Chrome 10-25, iOS 5+, Safari 5.1+ */
+    background-image:         linear-gradient(to bottom, #000000, #222224); /* Chrome 26, Firefox 16+, IE 10+, Opera */
 }
 
 .player {
-  background-image: url("./background.png");
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
   color: #fff;
   position: absolute;
   left: 0;
@@ -116,6 +114,7 @@ body {
 .player .media-info {
   padding-bottom: 54px;
   display: flex;
+  align-items: center;
   overflow: hidden;
 }
 
@@ -133,7 +132,6 @@ body {
 
 .player .media-text {
   width: 100%;
-  align-self: flex-end;
 }
 
 .player .media-info .media-title {

@@ -8,7 +8,7 @@ import './app.css'
 
 import Player from './components/Player'
 import DebugPlayer from './components/DebugPlayer'
-import GoalOverlay from './components/GoalOverlayContainer'
+import GoalOverlayAnimated from './components/GoalOverlayAnimated'
 import Sponsors from './components/Sponsors'
 
 import PlayerStore from './stores/PlayerStore'
@@ -72,7 +72,7 @@ export default class App extends Component {
                     onViewSponsor={() => {}}
                     onClickSponsor={() => {}}
                 />
-                <GoalOverlay
+                <GoalOverlayAnimated
                     timer={playerStore.realTimer}
                     teamHome={playerStore.team_home}
                     teamAway={playerStore.team_away}

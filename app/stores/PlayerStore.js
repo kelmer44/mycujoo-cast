@@ -110,6 +110,8 @@ export default class PlayerStore {
                 this.timer.matchTime = json.meta_data.match_time
             }
         } else {
+            this.highlightId = null
+            this.eventId = metadata.eventId
             this.timer.offset = 0
             this.timer.matchTime = 0
         }
@@ -118,9 +120,6 @@ export default class PlayerStore {
         console.log('[PlayerStore.js:initialiseWithPayload]', 'needsUpdate', needsUpdate)
 
         if (needsUpdate) {
-            this.eventId = parseInt(metadata.eventId, 10)
-            this.highlightId = null
-
             const response = await this.transportLayer.fetchEventInfo(this.eventId)
             const json = await response.json()
             this.updateFromJson(json)

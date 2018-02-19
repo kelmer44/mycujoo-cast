@@ -6,18 +6,15 @@
     height: 64px;
     border-radius: 4px;
     background: #fff;
-    display: flex;
     overflow: hidden;
 }
 
 .spot {
-    flex-grow: 0;
-    flex-shrink: 1;
+    padding: 4px;
 }
 
 .image {
-    height: 100%;
+    height: 56px;
     width: auto;
     object-fit: contain;
-    padding: 4px;
 }

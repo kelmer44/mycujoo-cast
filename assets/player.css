@@ -172,13 +172,15 @@ body {
 }
 
 .player .controls-play-pause {
-  background-size: cover;
+  background-size: 32px;
+  background-position: center;
   border: 0;
   float: left;
   height: 32px;
   margin-left: 0;
   margin-top: 0;
   width: 32px;
+  border: 1px solid red;
 }
 
 .player .overlay {
@@ -361,7 +363,7 @@ body {
   display: block;
   position: absolute;
   background-image: url("./buffering.png");
-  background-size: cover;
+  background-size: 32px;
   bottom: 64px;
   left: 50%;
   margin-left: 32px / -2;
@@ -414,7 +416,7 @@ body {
 
 .player[type="video"][state="buffering"] .controls-play-pause {
   background-image: url("./buffering.png");
-  background-size: cover;
+  background-size: 32px;
   -webkit-animation: spin 1s infinite linear;
 }
 
@@ -520,7 +522,7 @@ body {
 
 .player[type="video"][state="playing"] .controls-play-pause {
   background-image: url("./buffering.png");
-  background-size: cover;
+  background-size: 32px;
   -webkit-animation: spin 1s infinite linear;
 }
 

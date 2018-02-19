@@ -54,10 +54,10 @@ export default class PlayerStore {
         console.log('[PlayerStore.js:fetchPlayerSponsors]', 'tvId', tvId, 'competitionId', competitionId)
         const response = await this.transportLayer.fetchPlayerSponsors(tvId, competitionId)
         const json = await response.json()
-        console.log('[PlayerStore.js:fetchPlayerSponsors]', 'json', json)
+        const [ campaign ] = json
 
-        if (json.campaign_spots && json.campaign_spots.length !== 0) {
-            const playerSponsors = json.campaign_spots[0]
+        if (campaign.campaign_spots && campaign.campaign_spots.length !== 0) {
+            const playerSponsors = campaign.campaign_spots[0]
                 .concat()
                 .filter(spot => spot.slug.startsWith('tv-header'))
 

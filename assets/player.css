@@ -364,7 +364,7 @@ body {
   width: 32px;
   display: block;
   position: absolute;
-  background-image: url("./buffering.png");
+  background-image: url("./buffering.svg");
   background-size: 32px;
   bottom: 64px;
   left: 50%;
@@ -417,7 +417,7 @@ body {
 }
 
 .player[type="video"][state="buffering"] .controls-play-pause {
-  background-image: url("./buffering.png");
+  background-image: url("./buffering.svg");
   background-size: 32px;
   -webkit-animation: spin 1s infinite linear;
 }
@@ -523,7 +523,7 @@ body {
 }
 
 .player[type="video"][state="playing"] .controls-play-pause {
-  background-image: url("./buffering.png");
+  background-image: url("./buffering.svg");
   background-size: 32px;
   -webkit-animation: spin 1s infinite linear;
 }

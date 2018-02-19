@@ -4,7 +4,7 @@ import checkUrlInLogo from '../lib/checkUrlInLogo'
 
 export default class PlayerStore {
     @observable score = {}
-    @observable timer = {}
+    @observable timer = { offset: 0 }
     @observable team_away = {}
     @observable team_home = {}
     @observable tvId = false

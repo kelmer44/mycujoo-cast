@@ -42,9 +42,11 @@ export default class GoalStore {
             .reverse()
             .find(item => item.data && item.data.type === 'goal')
 
+        const { offset } = playerStore.timer
+
         if (goal && goal.offset &&
-            this.playerStore.currentTimeInPlayer >= goal.offset + 3 &&
-            this.playerStore.currentTimeInPlayer <= goal.offset + 3 + 20
+            this.playerStore.currentTimeInPlayer >= goal.offset + offset + 3 &&
+            this.playerStore.currentTimeInPlayer <= goal.offset + offset + 3 + 20
         ) {
             goal.currentTimeInPlayer = parseInt(this.playerStore.currentTimeInPlayer, 10)
             return goal

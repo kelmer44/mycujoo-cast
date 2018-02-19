@@ -50,8 +50,9 @@ export default class TimelineStore {
     }
 
     @computed get currentTimeline() {
+        const offset = this.playerStore.timer.offset
         return this.timeline
-            .filter(item => this.playerStore.currentTimeInPlayer >= item.offset)
+            .filter(item => this.playerStore.currentTimeInPlayer + offset >= item.offset)
             .sort((a, b) => a.elapsed_time === b.elapsed_time
                 ? a.id - b.id
                 : a.elapsed_time - b.elapsed_time)

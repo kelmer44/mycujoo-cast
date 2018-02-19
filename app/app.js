@@ -87,7 +87,7 @@ export default class App extends Component {
                 {playerStore.playerSponsors !== false && (
                     <Sponsors sponsors={playerStore.playerSponsors} />
                 )}
-                {show.currentTime && <CurrentTime time={playerStore.currentTimeInPlayer.toFixed(2)} />}
+                {show.currentTime && <CurrentTime time={`${playerStore.currentTimeInPlayer.toFixed(2)} + ${playerStore.timer.offset.toFixed(2)}`} />}
             </div>
         )
     }

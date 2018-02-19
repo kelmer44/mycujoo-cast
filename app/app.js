@@ -78,6 +78,7 @@ export default class App extends Component {
                 />
                 <GoalOverlayAnimated
                     timer={playerStore.realTimer}
+                    offset={playerStore.timer.offset}
                     teamHome={playerStore.team_home}
                     teamAway={playerStore.team_away}
                     disabled={goalStore.disabled}

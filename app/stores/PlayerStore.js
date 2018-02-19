@@ -7,12 +7,15 @@ export default class PlayerStore {
     @observable timer = {}
     @observable team_away = {}
     @observable team_home = {}
-    @observable eventId = false
     @observable tvId = false
     @observable competitionId = false
     @observable competitionName = false
     @observable scoreboardSponsor = false
     @observable playerSponsors = false
+
+    eventId = false
+    highlightId = false
+    type = null
 
     check = null
     checkTimeout = null
@@ -42,11 +45,12 @@ export default class PlayerStore {
     @computed
     get realTimer() {
         const { timer } = this
+        const offset = timer.offset
         if (timer.stopped) {
-            return timer.time
+            return timer.time + offset
         } else {
             const delta = this.currentTimeInPlayer - timer.at
-            return timer.time + delta
+            return timer.time + delta + offset
         }
     }
 
@@ -83,12 +87,40 @@ export default class PlayerStore {
     @action.bound
     async initialiseWithPayload(payload) {
         const { metadata } = payload
+
+        this.type = metadata.highlightId
+            ? 'HIGHLIGHT'
+            : 'EVENT'
+
+        console.log('[PlayerStore.js:initialiseWithPayload]', 'payload', payload, 'type', type)
+
+        if (type === 'HIGHLIGHT') {
+            const needsUpdate = this.highlightId !== metadata.highlightId
+            console.log('[PlayerStore.js:initialiseWithPayload]', 'needsUpdateHIGHLIGHT', needsUpdate)
+
+            if (needsUpdate) {
+                this.highlightId = parseInt(metadata.highlightId, 10)
+                this.eventId = null
+
+                const response = await this.transportLayer.fetchHighlightInfo(this.highlightId)
+                const json = await response.json()
+                this.eventId = json.event_id
+                this.timer.offset = json.meta_data.offset
+                this.timer.matchTime = json.meta_data.match_time
+            }
+        } else {
+            this.timer.offset = 0
+            this.timer.matchTime = 0
+        }
+
         const needsUpdate = metadata.eventId && this.eventId !== metadata.eventId
-        console.log('[PlayerStore.js:initialiseWithPayload]', 'payload', payload)
         console.log('[PlayerStore.js:initialiseWithPayload]', 'needsUpdate', needsUpdate)
-        if (metadata.eventId && needsUpdate) {
+
+        if (needsUpdate) {
             this.eventId = parseInt(metadata.eventId, 10)
-            const response = await this.transportLayer.fetchMatchInfo(this.eventId)
+            this.highlightId = null
+
+            const response = await this.transportLayer.fetchEventInfo(this.eventId)
             const json = await response.json()
             this.updateFromJson(json)
             if(json.tv_id && json.competition_id) {
@@ -131,12 +163,10 @@ export default class PlayerStore {
 
     @action.bound
     reset() {
-        this.timer = {
-            time: 0,
-            at: 0,
-            enabled: false,
-            stopped: true,
-        }
+        this.timer.time = 0
+        this.timer.at = 0
+        this.timer.enabled = false
+        this.timer.stopped = true
         this.score = {
             enabled: false,
             data: [ 0, 0 ],

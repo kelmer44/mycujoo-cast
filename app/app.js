@@ -33,8 +33,8 @@ const CurrentTime = ({ time }) => {
     return (
         <div style={{
             position: 'absolute',
-            right: '32px',
-            bottom: '32px',
+            right: '24px',
+            bottom: '24px',
             zIndex: 10,
             borderRadius: '4px',
             background: 'white',
@@ -67,7 +67,7 @@ export default class App extends Component {
                     }}
                     sponsor={playerStore.scoreboardSponsor}
                     forceScoreHidden={false}
-                    competition={playerStore.competition}
+                    competition={playerStore.competitionName}
                     onLoadSponsor={() => {}}
                     onViewSponsor={() => {}}
                     onClickSponsor={() => {}}

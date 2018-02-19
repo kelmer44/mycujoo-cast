@@ -63,9 +63,13 @@ body {
   background: #222224;
 }
 
-@keyframes spin {
+@keyframes spinLogo {
     0% {
         transform: rotate(0deg);
+    }
+
+    70% {
+        transform: rotate(360deg);
     }
 
     100% {
@@ -84,7 +88,7 @@ body {
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
-    animation: spin 1.2s ease infinite 1.5s;
+    animation: spinLogo 1.2s ease infinite 1.5s;
 }
 
 .player .placeholder-image {
@@ -352,11 +356,12 @@ body {
 
 .player[type="video"][state="launching"] .spinner {
   -webkit-animation: spin 1s infinite linear;
-  height: 36px;
+  height: 32px;
   width: 32px;
   display: block;
   position: absolute;
   background-image: url("./buffering.png");
+  background-size: cover;
   bottom: 64px;
   left: 50%;
   margin-left: 32px / -2;
@@ -409,6 +414,7 @@ body {
 
 .player[type="video"][state="buffering"] .controls-play-pause {
   background-image: url("./buffering.png");
+  background-size: cover;
   -webkit-animation: spin 1s infinite linear;
 }
 
@@ -514,6 +520,7 @@ body {
 
 .player[type="video"][state="playing"] .controls-play-pause {
   background-image: url("./buffering.png");
+  background-size: cover;
   -webkit-animation: spin 1s infinite linear;
 }
 

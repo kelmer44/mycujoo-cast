@@ -10,7 +10,7 @@ export default class PlayerStore {
     @observable eventId = false
     @observable tvId = false
     @observable competitionId = false
-    @observable competition = false
+    @observable competitionName = false
     @observable scoreboardSponsor = false
     @observable playerSponsors = false
 
@@ -25,13 +25,14 @@ export default class PlayerStore {
     }
 
     initialise() {
-        if (this.CastPlayer) {
-            this.CastPlayer = null
+        console.log('[PlayerStore.js:initialise]', 'this.CastPlayer', this.CastPlayer)
+        if (!this.CastPlayer) {
+            const playerDiv = document.getElementById('player')
+            this.CastPlayer = new sampleplayer.CastPlayer(playerDiv, payload => {
+                console.log('[PlayerStore.js:initialising', 'payload', payload)
+                this.initialiseWithPayload(payload)
+            })
         }
-        const playerDiv = document.getElementById('player')
-        this.CastPlayer = new sampleplayer.CastPlayer(playerDiv, info => {
-            this.setMetaDataAndCustomData(info)
-        })
         this.CastPlayer.start()
         if (!this.check) {
             this.check = requestAnimationFrame(() => this.getTimeFromPlayer())
@@ -49,15 +50,11 @@ export default class PlayerStore {
         }
     }
 
-    async fetchMatchInfo(eventId) {
-        const response = await this.transportLayer.fetchMatchInfo(eventId)
-        const json = await response.json()
-        this.updateFromJson(json)
-    }
-
     async fetchPlayerSponsors(tvId, competitionId) {
+        console.log('[PlayerStore.js:fetchPlayerSponsors]', 'tvId', tvId, 'competitionId', competitionId)
         const response = await this.transportLayer.fetchPlayerSponsors(tvId, competitionId)
         const json = await response.json()
+        console.log('[PlayerStore.js:fetchPlayerSponsors]', 'json', json)
 
         if (json.campaign_spots && json.campaign_spots.length !== 0) {
             const playerSponsors = json.campaign_spots[0]
@@ -71,25 +68,19 @@ export default class PlayerStore {
     }
 
     @action.bound
-    setMetaDataAndCustomData({ customData }) {
-        if (customData && customData.mAdsMetaData) {
-            if (customData.mAdsMetaData.channelId) {
-                this.tvId = parseInt(customData.mAdsMetaData.channelId, 10)
+    async initialiseWithPayload(payload) {
+        const { metadata } = payload
+        const needsUpdate = metadata.eventId && this.eventId !== metadata.eventId
+        console.log('[PlayerStore.js:initialiseWithPayload]', 'payload', payload)
+        console.log('[PlayerStore.js:initialiseWithPayload]', 'needsUpdate', needsUpdate)
+        if (metadata.eventId && needsUpdate) {
+            this.eventId = parseInt(metadata.eventId, 10)
+            const response = await this.transportLayer.fetchMatchInfo(this.eventId)
+            const json = await response.json()
+            this.updateFromJson(json)
+            if(json.tv_id && json.competition_id) {
+                this.fetchPlayerSponsors(json.tv_id, json.competition_id)
             }
-            if (customData.mAdsMetaData.competitionId) {
-                this.competitionId = parseInt(customData.mAdsMetaData.competitionId, 10)
-            }
-            if (customData.mAdsMetaData.eventId) {
-                this.eventId = parseInt(customData.mAdsMetaData.eventId, 10)
-            }
-        }
-
-        if (this.eventId) {
-            this.fetchMatchInfo(this.eventId)
-        }
-
-        if (this.tvId && this.competitionId) {
-            this.fetchPlayerSponsors(this.tvId, this.competitionId)
         }
     }
 
@@ -99,6 +90,7 @@ export default class PlayerStore {
             const mediaElement = this.CastPlayer.getMediaElement()
             if (mediaElement && mediaElement.currentTime) {
                 this.currentTimeInPlayer = mediaElement.currentTime
+                console.log('[PlayerStore.js:getTimeFromPlayer]', 'currentTimeInPlayer', this.currentTimeInPlayer)
             }
             this.check = requestAnimationFrame(() => this.getTimeFromPlayer())
         }, 1000)
@@ -106,6 +98,8 @@ export default class PlayerStore {
 
     @action.bound
     updateFromJson(json) {
+        console.log('[PlayerStore.js:updateFromJson]', 'json', json)
+
         this.team_away = {
             ...json.match_data.team_away,
             logo: checkUrlInLogo(json.match_data.team_away.logo),
@@ -116,11 +110,7 @@ export default class PlayerStore {
             logo: checkUrlInLogo(json.match_data.team_home.logo),
         }
 
-        this.competition = json.description
-
-        if(json.sponsor) {
-            this.sponsor = json.sponsor
-        }
+        this.competitionName = json.description
     }
 
     @action.bound

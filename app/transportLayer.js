@@ -3,7 +3,7 @@ export default class TransportLayer {
         return fetch(`https://api.mycujoo.tv/events/${id}/timeline`)
     }
     fetchMatchInfo(id) {
-        return fetch(`https://api.mycujoo.tv/events/${id}`)
+        return fetch(`https://api.mycujoo.tv/events/${id}?eager=competition`)
     }
     fetchPlayerSponsors(tvId, competitionId) {
         return fetch(`https://api.mycujoo.tv/tvs/${tvId}/campaigns?eager=campaign_spots&data.competition_id_legacy=${competitionId}`)

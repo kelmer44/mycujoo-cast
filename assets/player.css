@@ -68,10 +68,6 @@ body {
         transform: rotate(0deg);
     }
 
-    70% {
-        transform: rotate(360deg);
-    }
-
     100% {
         transform: rotate(360deg);
     }
@@ -88,7 +84,7 @@ body {
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
-    animation: spinLogo 1.2s ease infinite 1.5s;
+    animation: spinLogo 2.25s cubic-bezier(.2,.94,.09,.99) infinite 1.5s;
 }
 
 .player .placeholder-image {
@@ -359,12 +355,11 @@ body {
 }
 
 .player[type="video"][state="launching"] .spinner {
-  -webkit-animation: spin 1s infinite linear;
   height: 32px;
   width: 32px;
   display: block;
   position: absolute;
-  background-image: url("./buffering.svg");
+  background-image: url("./spinner.svg");
   background-size: 32px;
   bottom: 64px;
   left: 50%;
@@ -417,9 +412,8 @@ body {
 }
 
 .player[type="video"][state="buffering"] .controls-play-pause {
-  background-image: url("./buffering.svg");
+  background-image: url("./spinner.svg");
   background-size: 32px;
-  -webkit-animation: spin 1s infinite linear;
 }
 
 .player[type="video"][state="buffering"][live="true"] .controls-cur-time,
@@ -523,9 +517,8 @@ body {
 }
 
 .player[type="video"][state="playing"] .controls-play-pause {
-  background-image: url("./buffering.svg");
+  background-image: url("./spinner.svg");
   background-size: 32px;
-  -webkit-animation: spin 1s infinite linear;
 }
 
 .player[type="video"][state="playing"]:not(.seeking) .controls-play-pause {

@@ -54,7 +54,7 @@ export default class PlayerStore {
         console.log('[PlayerStore.js:fetchPlayerSponsors]', 'tvId', tvId, 'competitionId', competitionId)
         const response = await this.transportLayer.fetchPlayerSponsors(tvId, competitionId)
         const json = await response.json()
-        const [ campaign ] = json
+        const [ campaign = {} ] = json
         console.log('[PlayerStore.js:fetchPlayerSponsors]', 'campaign', campaign  )
 
         if (campaign.campaign_spots && campaign.campaign_spots.length !== 0) {

@@ -7,9 +7,8 @@ export default class GoalStore {
     @observable disabled = true
     timeout
 
-    constructor({ playerStore, timelineStore }) {
-        this.playerStore = playerStore
-        this.timelineStore = timelineStore
+    constructor(rootStore) {
+        this.rootStore = rootStore
         this.setupReactions()
     }
 
@@ -37,18 +36,18 @@ export default class GoalStore {
 
     @computed
     get currentGoal() {
-        const goal = this.timelineStore.currentTimeline
+        const goal = this.rootStore.timelineStore.currentTimeline
             .concat()
             .reverse()
             .find(item => item.data && item.data.type === 'goal')
 
-        const { offset } = this.playerStore.timer
+        const { playerStore } = this.rootStore
 
         if (goal && goal.offset &&
-            this.playerStore.currentTimeInPlayer >= goal.offset + offset + 3 &&
-            this.playerStore.currentTimeInPlayer <= goal.offset + offset + 3 + 20
+            playerStore.relativeTime >= goal.offset + 3 &&
+            playerStore.relativeTime <= goal.offset + 3 + 20
         ) {
-            goal.currentTimeInPlayer = parseInt(this.playerStore.currentTimeInPlayer, 10)
+            goal.relativeTime = parseInt(this.rootStore.playerStore.relativeTime, 10)
             return goal
         }
 

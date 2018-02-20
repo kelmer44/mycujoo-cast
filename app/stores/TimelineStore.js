@@ -1,9 +1,9 @@
-import { observable, computed, action, reaction } from 'mobx'
+import { observable, computed, action, reaction, trace } from 'mobx'
 import camelCase from 'camelcase'
 
-const FETCH_DELAY = 4000
+const FETCH_DELAY = 7500
 
-const actionTypes = [
+const scoreboardActionTypes = [
     'timer_shown',
     'timer_hidden',
     'timer_started',
@@ -16,13 +16,10 @@ const actionTypes = [
 ].map(i => camelCase(i))
 
 export default class TimelineStore {
-    transportLayer
-    fetchTimeout
     @observable timeline = []
 
-    constructor({ transportLayer, playerStore }) {
-        this.playerStore = playerStore
-        this.transportLayer = transportLayer
+    constructor(rootStore) {
+        this.rootStore = rootStore
         this.setupReactions()
     }
 
@@ -30,18 +27,18 @@ export default class TimelineStore {
         // this fetches timeline when the time in player has changed
         // delay is debouncing
         this.fetchReaction = reaction(
-            () => this.playerStore.currentTimeInPlayer,
+            () => this.rootStore.playerStore.videoTime,
             () => this.fetchTimeline(),
             { fireImmediately: true, delay: FETCH_DELAY },
         )
 
         // when the eventId has been fetched, update timeline too
         this.fetchOnEventIdReaction = reaction(
-            () => this.playerStore.eventId,
+            () => this.rootStore.playerStore.eventId,
             () => this.fetchTimeline(),
         )
 
-        // it's safe to compare .length since timeline does not remove events
+        // need to map ids since the timeline can have items removed and added
         this.parseTimelineReaction = reaction(
             () => this.currentTimeline.length,
             () => this.parseTimeline(),
@@ -50,9 +47,9 @@ export default class TimelineStore {
     }
 
     @computed get currentTimeline() {
-        const offset = this.playerStore.timer.offset
+        const { playerStore } = this.rootStore
         return this.timeline
-            .filter(item => this.playerStore.currentTimeInPlayer + offset >= item.offset)
+            .filter(item => playerStore.relativeTime >= item.offset)
             .sort((a, b) => a.elapsed_time === b.elapsed_time
                 ? a.id - b.id
                 : a.elapsed_time - b.elapsed_time)
@@ -68,13 +65,20 @@ export default class TimelineStore {
     }
 
     async fetchTimeline() {
+        const eventId = this.rootStore.playerStore.eventId
+
+        console.log('[TimelineStore.js:fetchTimeline]', 'eventId', eventId)
+
         try {
-            if (!this.playerStore.eventId) {
+            if (!eventId) {
                 return
             }
 
-            const response = await this.transportLayer.fetchTimeline(this.playerStore.eventId)
+            const response = await this.rootStore.transportLayer.fetchTimeline(this.rootStore.playerStore.eventId)
             const timeline = await response.json()
+
+            console.log('[TimelineStore.js:fetchTimeline]', 'timeline.length', timeline.length)
+
             if (timeline.length !== this.timeline.length) {
                 this.timeline = timeline
             }
@@ -85,13 +89,20 @@ export default class TimelineStore {
 
     @action
     parseTimeline() {
-        this.playerStore.reset()
+        console.log('[TimelineStore.js:parseTimeline]')
+        console.log('[TimelineStore.js:parseTimeline]', 'currentTimeline.length', this.currentTimeline.concat().length)
+
+        this.rootStore.playerStore.resetScoreboard()
+
         this.currentTimeline
             .forEach(item => {
                 const type = camelCase(item.type)
-                if (actionTypes.includes(type)) {
-                    if(this.playerStore[type]) {
-                        this.playerStore[type](item)
+                if (scoreboardActionTypes.includes(type)) {
+
+                    console.log('[TimelineStore.js:parseTimeline]', 'type', type)
+
+                    if(this.rootStore.playerStore[type]) {
+                        this.rootStore.playerStore[type](item)
                     }
                 }
             })

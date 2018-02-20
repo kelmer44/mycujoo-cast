@@ -4,59 +4,71 @@ import checkUrlInLogo from '../lib/checkUrlInLogo'
 
 export default class PlayerStore {
     @observable score = {}
-    @observable timer = { offset: 0 }
     @observable team_away = {}
     @observable team_home = {}
-    @observable tvId = false
     @observable competitionId = false
     @observable competitionName = false
     @observable scoreboardSponsor = false
     @observable playerSponsors = false
+    @observable videoTime = 0
+    @observable videoOffset = 0
+    @observable eventId = false
 
-    eventId = false
+    timer = observable({
+        time: 0,
+        at: 0,
+        enabled: false,
+        stopped: true,
+    })
+
+    tvId = false
     highlightId = false
     type = null
-
     checkTimeout = null
     CastPlayer = null
 
-    @observable currentTimeInPlayer = 0
-
-    constructor({ transportLayer }) {
-        this.transportLayer = transportLayer
+    constructor(rootStore) {
+        this.rootStore = rootStore
     }
 
     initialise() {
         console.log('[PlayerStore.js:initialise]', 'this.CastPlayer', this.CastPlayer)
-        if (!this.CastPlayer) {
-            const playerDiv = document.getElementById('player')
-            this.CastPlayer = new sampleplayer.CastPlayer(playerDiv, payload => {
-                console.log('[PlayerStore.js:initialising', 'payload', payload)
-                this.initialiseWithPayload(payload)
-            })
-            this.CastPlayer.start()
+
+        if (DEV) {
+            this.initialiseWithPayload({ metadata: { highlightId: 235802 }})
+        } else {
+            if (!this.CastPlayer) {
+                const playerDiv = document.getElementById('player')
+                this.CastPlayer = new sampleplayer.CastPlayer(playerDiv, payload => {
+                    console.log('[PlayerStore.js:initialising', 'payload', payload)
+                    this.initialiseWithPayload(payload)
+                })
+                this.CastPlayer.start()
+            }
         }
 
-        // clear any previous listeners or checks
-        this.dispose()
         this.getTimeFromPlayer()
     }
 
     @computed
     get realTimer() {
         const { timer } = this
-        const offset = timer.offset
         if (timer.stopped) {
-            return timer.time + offset
+            return timer.time + this.videoOffset
         } else {
-            const delta = this.currentTimeInPlayer - timer.at
-            return timer.time + delta + offset
+            const delta = this.videoTime - timer.at
+            return timer.time + delta + this.videoOffset
         }
+    }
+
+    @computed
+    get relativeTime() {
+        return this.videoOffset + this.videoTime
     }
 
     async fetchPlayerSponsors(tvId, competitionId) {
         console.log('[PlayerStore.js:fetchPlayerSponsors]', 'tvId', tvId, 'competitionId', competitionId)
-        const response = await this.transportLayer.fetchPlayerSponsors(tvId, competitionId)
+        const response = await this.rootStore.transportLayer.fetchPlayerSponsors(tvId, competitionId)
         const json = await response.json()
         const [ campaign = {} ] = json
 
@@ -102,27 +114,32 @@ export default class PlayerStore {
             if (needsUpdate) {
                 this.highlightId = parseInt(metadata.highlightId, 10)
 
-                const response = await this.transportLayer.fetchHighlightInfo(this.highlightId)
+                const response = await this.rootStore.transportLayer.fetchHighlightInfo(this.highlightId)
                 const json = await response.json()
 
                 this.eventId = json.event_id
-                this.timer.offset = json.meta_data.offset
+                this.videoOffset = json.meta_data.offset
+                    - (Math.abs(new Date(json.stopped_at) - new Date(json.started_at)) / 2 / 1000)
                 this.timer.matchTime = json.meta_data.match_time
             }
         } else {
             this.highlightId = null
-            this.timer.offset = 0
+            this.videoOffset = 0
             this.timer.matchTime = 0
         }
 
         const needsUpdate = this.eventId !== metadata.eventId
-        this.eventId = metadata.eventId
-        console.log('[PlayerStore.js:initialiseWithPayload]', 'needsUpdate', needsUpdate)
+        console.log('[PlayerStore.js:initialiseWithPayload]', 'needsUpdate', needsUpdate, 'eventId', this.eventId)
 
         if (needsUpdate) {
-            const response = await this.transportLayer.fetchEventInfo(this.eventId)
+            const response = await this.rootStore.transportLayer.fetchEventInfo(this.eventId)
             const json = await response.json()
             this.updateFromJson(json)
+
+            if(json.live === 1) {
+                this.videoOffset = this.videoOffset - 9
+            }
+
             if(json.tv_id && json.competition_id) {
                 this.fetchPlayerSponsors(json.tv_id, json.competition_id)
             } else {
@@ -135,11 +152,15 @@ export default class PlayerStore {
     @action.bound
     getTimeFromPlayer() {
         this.checkTimeout = setTimeout(() => {
-            const mediaElement = this.CastPlayer.getMediaElement()
-            if (mediaElement && mediaElement.currentTime) {
-                this.currentTimeInPlayer = mediaElement.currentTime
-                console.log('[PlayerStore.js:getTimeFromPlayer]', 'currentTimeInPlayer', this.currentTimeInPlayer)
+            if (DEV) {
+                this.videoTime = this.videoTime + 1
+            } else {
+                const mediaElement = this.CastPlayer.getMediaElement()
+                if (mediaElement && mediaElement.currentTime) {
+                    this.videoTime = mediaElement.currentTime
+                }
             }
+            // console.log('[PlayerStore.js:getTimeFromPlayer]', 'videoTime', this.videoTime)
             this.getTimeFromPlayer()
         }, 1000)
     }
@@ -162,7 +183,8 @@ export default class PlayerStore {
     }
 
     @action.bound
-    reset() {
+    resetScoreboard() {
+        console.log('[PlayerStore.js:resetScoreboard]')
         this.timer.time = 0
         this.timer.at = 0
         this.timer.enabled = false
@@ -174,13 +196,16 @@ export default class PlayerStore {
     }
 
     @action.bound
-    timerShown(item, state) {
+    timerShown() {
         this.timer.enabled = true
+        console.log('timerShown', this.timer)
     }
 
     @action.bound
     timerHidden() {
         this.timer.enabled = false
+
+        console.log('timerHidden', this.timer)
     }
 
     @action.bound
@@ -188,6 +213,8 @@ export default class PlayerStore {
         this.timer.time = item.data.elapsed
         this.timer.at = item.offset
         this.timer.stopped = false
+
+        console.log('timerStarted', this.timer)
     }
 
     @action.bound
@@ -195,12 +222,16 @@ export default class PlayerStore {
         this.timer.time = item.data.elapsed
         this.timer.at = item.offset
         this.timer.stopped = true
+
+        console.log('timerStopped', this.timer)
     }
 
     @action.bound
     timerUpdated(item) {
         this.timer.time = item.data.elapsed
         this.timer.at = item.offset
+
+        console.log('timerUpdated', this.timer)
     }
 
     @action.bound

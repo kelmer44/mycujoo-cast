@@ -13,7 +13,9 @@ export default class GoalOverlay extends PureComponent {
         return true
     }
     render() {
-        const { goal, timer, offset } = this.props
+        const { goal, timer } = this.props
+
+        console.log(goal)
 
         const team = this.props[goal.data.team === 'home'
             ? 'teamHome'
@@ -26,6 +28,7 @@ export default class GoalOverlay extends PureComponent {
         const name = goal &&
             goal.data &&
             goal.data.tagged_players &&
+            goal.data.tagged_players.length > 0 &&
             goal.data.tagged_players[0].name
 
         const player = name || team.name
@@ -44,8 +47,8 @@ export default class GoalOverlay extends PureComponent {
 
         const backgroundColor = team ? team.color : '#0BD280'
 
-        const elapsedSecondsAfterHighlightHappened = goal.currentTimeInPlayer - goal.offset
-        const minuteFormatted = Math.ceil((timer + offset + 1 - elapsedSecondsAfterHighlightHappened) / 60)
+        const elapsedSecondsAfterHighlightHappened = goal.relativeTime - goal.offset
+        const minuteFormatted = Math.ceil((timer + 1 - elapsedSecondsAfterHighlightHappened) / 60)
         const minute = minuteFormatted === 0
             ? minute
             : `${minuteFormatted}'`

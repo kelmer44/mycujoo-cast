@@ -3,91 +3,65 @@ import { observer } from 'mobx-react'
 import { observable } from 'mobx'
 import Scoreboard from 'mycujoo-scoreboard'
 
+import '../assets/reset.css'
 import '../assets/cast.css'
 import '!style-loader!css-loader!../assets/player.css'
-import './app.css'
 
 import Player from './components/Player'
 import DebugPlayer from './components/DebugPlayer'
 import GoalOverlayAnimated from './components/GoalOverlayAnimated'
 import Sponsors from './components/Sponsors'
-
-import PlayerStore from './stores/PlayerStore'
-import TimelineStore from './stores/TimelineStore'
-import GoalStore from './stores/GoalStore'
+import CurrentTime from './components/CurrentTime'
 
 import TransportLayer from './transportLayer'
+import RootStore from './stores/'
 
 const transportLayer = new TransportLayer()
-const playerStore = new PlayerStore({ transportLayer })
-const timelineStore = new TimelineStore({ transportLayer, playerStore })
-const goalStore = new GoalStore({ playerStore, timelineStore })
+const rootStore = new RootStore(transportLayer)
 
 const show = observable({
     statsForNerds: false,
-    currentTime: false,
+    currentTime: true,
 })
 
-window.playerStore = playerStore
-window.timelineStore = timelineStore
-window.goalStore = goalStore
+window.rootStore = rootStore
 window.show = show
-
-const CurrentTime = ({ time }) => {
-    return (
-        <div style={{
-            position: 'absolute',
-            right: '24px',
-            bottom: '24px',
-            zIndex: 10,
-            borderRadius: '4px',
-            background: 'white',
-            color: '#222224',
-            padding: '4px 16px',
-            fontSize: '22px',
-            textAlign: 'center',
-        }}>
-            {time}
-        </div>
-    )
-}
 
 @observer
 export default class App extends Component {
     render() {
         return (
             <div data-player>
-                <Player playerStore={playerStore} />
+                <Player playerStore={rootStore.playerStore} />
                 {show.statsForNerds && <DebugPlayer />}
                 <Scoreboard
                     metaData={{
-                        score: playerStore.score,
+                        score: rootStore.playerStore.score,
                         timer: {
-                            enabled: playerStore.timer.enabled,
-                            time: playerStore.realTimer,
+                            enabled: rootStore.playerStore.timer.enabled,
+                            time: rootStore.playerStore.realTimer,
                         },
-                        team_home: playerStore.team_home,
-                        team_away: playerStore.team_away,
+                        team_home: rootStore.playerStore.team_home,
+                        team_away: rootStore.playerStore.team_away,
                     }}
-                    sponsor={playerStore.scoreboardSponsor}
+                    sponsor={rootStore.playerStore.scoreboardSponsor}
                     forceScoreHidden={false}
-                    competition={playerStore.competitionName}
+                    competition={rootStore.playerStore.competitionName}
                     onLoadSponsor={() => {}}
                     onViewSponsor={() => {}}
                     onClickSponsor={() => {}}
                 />
                 <GoalOverlayAnimated
-                    timer={playerStore.realTimer}
-                    offset={playerStore.timer.offset}
-                    teamHome={playerStore.team_home}
-                    teamAway={playerStore.team_away}
-                    disabled={goalStore.disabled}
-                    goal={goalStore.currentGoal}
+                    timer={rootStore.playerStore.realTimer}
+                    teamHome={rootStore.playerStore.team_home}
+                    teamAway={rootStore.playerStore.team_away}
+                    disabled={rootStore.goalStore.disabled}
+                    goal={rootStore.goalStore.currentGoal}
                 />
-                {playerStore.playerSponsors !== false && (
-                    <Sponsors sponsors={playerStore.playerSponsors} />
+                {rootStore.playerStore.playerSponsors !== false && (
+                    <Sponsors sponsors={rootStore.playerStore.playerSponsors} />
                 )}
-                {show.currentTime && <CurrentTime time={`${playerStore.currentTimeInPlayer.toFixed(2)} + ${playerStore.timer.offset.toFixed(2)}`} />}
+                {show.currentTime && <CurrentTime value={`${rootStore.playerStore.videoTime.toFixed(2)} / ${rootStore.playerStore.videoOffset}`} />}
             </div>
         )
     }

@@ -123,6 +123,7 @@ export default class PlayerStore {
                 this.timer.matchTime = json.meta_data.match_time
             }
         } else {
+            this.eventId = metadata.eventId
             this.highlightId = null
             this.videoOffset = 0
             this.timer.matchTime = 0
@@ -130,10 +131,13 @@ export default class PlayerStore {
 
         const needsUpdate = this.eventId !== metadata.eventId
         console.log('[PlayerStore.js:initialiseWithPayload]', 'needsUpdate', needsUpdate, 'this.eventId', this.eventId)
-        if (this.type === 'EVENT') { console.log('[PlayerStore.js:initialiseWithPayload]', 'metadata.eventId', metadata.eventId) }
+
+        if (this.type === 'EVENT') {
+            console.log('[PlayerStore.js:initialiseWithPayload]', 'metadata.eventId', metadata.eventId)
+        }
+
         if (needsUpdate) {
-            const response = await this.rootStore.transportLayer.fetchEventInfo(this.eventId)
-            const json = await response.json()
+            const json = await this.rootStore.transportLayer.fetchEventInfo(this.eventId).then(r => r.json())
             this.updateFromJson(json)
 
             if(json.live === 1) {

@@ -171,14 +171,20 @@ export default class PlayerStore {
     updateFromJson(json) {
         console.log('[PlayerStore.js:updateFromJson]', 'json', json)
 
-        this.team_away = {
-            ...json.match_data.team_away,
-            logo: checkUrlInLogo(json.match_data.team_away.logo),
-        }
+        if(json.match_data) {
+            if (json.match_data.team_away) {
+                this.team_away = {
+                    ...json.match_data.team_away,
+                    logo: checkUrlInLogo(json.match_data.team_away.logo),
+                }
+            }
 
-        this.team_home = {
-            ...json.match_data.team_home,
-            logo: checkUrlInLogo(json.match_data.team_home.logo),
+            if (json.match_data.team_home) {
+                this.team_home = {
+                    ...json.match_data.team_home,
+                    logo: checkUrlInLogo(json.match_data.team_home.logo),
+                }
+            }
         }
 
         this.competitionName = json.description

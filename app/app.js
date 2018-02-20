@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
-import { observer } from 'mobx-react'
 import { observable } from 'mobx'
+import { observer } from 'mobx-react'
+import DevTools from 'mobx-react-devtools'
 import Scoreboard from 'mycujoo-scoreboard'
 
 import '../assets/reset.css'
@@ -21,7 +22,7 @@ const rootStore = new RootStore(transportLayer)
 
 const show = observable({
     statsForNerds: false,
-    currentTime: true,
+    currentTime: true
 })
 
 window.rootStore = rootStore
@@ -29,11 +30,19 @@ window.show = show
 
 @observer
 export default class App extends Component {
+    componentDidMount() {
+        rootStore.playerStore.initialise()
+    }
+
     render() {
         return (
             <div data-player>
-                <Player playerStore={rootStore.playerStore} />
-                {show.statsForNerds && <DebugPlayer />}
+                <Player
+                    playerStore={rootStore.playerStore}
+                />
+                <DebugPlayer
+                    show={show.statsForNerds}
+                />
                 <Scoreboard
                     metaData={{
                         score: rootStore.playerStore.score,
@@ -58,10 +67,14 @@ export default class App extends Component {
                     disabled={rootStore.goalStore.disabled}
                     goal={rootStore.goalStore.currentGoal}
                 />
-                {rootStore.playerStore.playerSponsors !== false && (
-                    <Sponsors sponsors={rootStore.playerStore.playerSponsors} />
-                )}
-                {show.currentTime && <CurrentTime value={`${rootStore.playerStore.videoTime.toFixed(2)} / ${rootStore.playerStore.videoOffset}`} />}
+                <Sponsors
+                    sponsors={rootStore.playerStore.playerSponsors}
+                />
+                <CurrentTime
+                    show={show.currentTime}
+                    value={`${rootStore.playerStore.videoTime} / ${rootStore.playerStore.videoOffset}`}
+                />
+                {DEV && <DevTools />}
             </div>
         )
     }

@@ -1,10 +1,12 @@
 import React, { PureComponent } from 'react'
+import { observer } from 'mobx-react'
 import styles from './GoalOverlay.css'
 
 import checkUrlInLogo from '../../lib/checkUrlInLogo'
 
 import Icon from './Icon.svg'
 
+@observer
 export default class GoalOverlay extends PureComponent {
     shouldComponentUpdate(nextProps) {
         if (nextProps.goal.id === this.props.goal.id) {
@@ -14,8 +16,6 @@ export default class GoalOverlay extends PureComponent {
     }
     render() {
         const { goal, timer } = this.props
-
-        console.log(goal)
 
         const team = this.props[goal.data.team === 'home'
             ? 'teamHome'

@@ -1,5 +1,7 @@
 import React, { PureComponent } from 'react'
+import { observer } from 'mobx-react'
 
+@observer
 export default class Player extends PureComponent {
     render() {
         return (
@@ -43,9 +45,5 @@ export default class Player extends PureComponent {
                 </div>
             </div>
         )
-    }
-
-    componentDidMount() {
-        this.props.playerStore.initialise()
     }
 }

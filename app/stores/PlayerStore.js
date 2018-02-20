@@ -129,15 +129,15 @@ export default class PlayerStore {
         }
 
         const needsUpdate = this.eventId !== metadata.eventId
-        console.log('[PlayerStore.js:initialiseWithPayload]', 'needsUpdate', needsUpdate, 'eventId', this.eventId)
-
+        console.log('[PlayerStore.js:initialiseWithPayload]', 'needsUpdate', needsUpdate, 'this.eventId', this.eventId)
+        if (this.type === 'EVENT') { console.log('[PlayerStore.js:initialiseWithPayload]', 'metadata.eventId', metadata.eventId) }
         if (needsUpdate) {
             const response = await this.rootStore.transportLayer.fetchEventInfo(this.eventId)
             const json = await response.json()
             this.updateFromJson(json)
 
             if(json.live === 1) {
-                this.videoOffset = this.videoOffset - 9
+                this.videoOffset = Math.max(this.videoOffset - 9, 0)
             }
 
             if(json.tv_id && json.competition_id) {
@@ -157,12 +157,14 @@ export default class PlayerStore {
             } else {
                 const mediaElement = this.CastPlayer.getMediaElement()
                 if (mediaElement && mediaElement.currentTime) {
-                    this.videoTime = mediaElement.currentTime
+                    this.videoTime = Math.floor(mediaElement.currentTime)
                 }
             }
             // console.log('[PlayerStore.js:getTimeFromPlayer]', 'videoTime', this.videoTime)
-            this.getTimeFromPlayer()
-        }, 1000)
+            requestAnimationFrame(() => {
+                this.getTimeFromPlayer()
+            })
+        }, DEV ? 1000 : 250)
     }
 
     @action.bound
@@ -198,14 +200,11 @@ export default class PlayerStore {
     @action.bound
     timerShown() {
         this.timer.enabled = true
-        console.log('timerShown', this.timer)
     }
 
     @action.bound
     timerHidden() {
         this.timer.enabled = false
-
-        console.log('timerHidden', this.timer)
     }
 
     @action.bound
@@ -213,8 +212,6 @@ export default class PlayerStore {
         this.timer.time = item.data.elapsed
         this.timer.at = item.offset
         this.timer.stopped = false
-
-        console.log('timerStarted', this.timer)
     }
 
     @action.bound
@@ -222,16 +219,12 @@ export default class PlayerStore {
         this.timer.time = item.data.elapsed
         this.timer.at = item.offset
         this.timer.stopped = true
-
-        console.log('timerStopped', this.timer)
     }
 
     @action.bound
     timerUpdated(item) {
         this.timer.time = item.data.elapsed
         this.timer.at = item.offset
-
-        console.log('timerUpdated', this.timer)
     }
 
     @action.bound

@@ -1,8 +1,14 @@
 import React, { PureComponent } from 'react'
+import { observer } from 'mobx-react'
 import styles from './DebugPlayer.css'
 
+@observer
 export default class DebugPlayer extends PureComponent {
     render() {
+        if (!this.props.show) {
+            return null
+        }
+
         return (
             <div className={styles.messages}>
                 <div className={styles.title}>Sample Media Receiver HUD</div>

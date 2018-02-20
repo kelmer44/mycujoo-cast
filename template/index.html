@@ -726,7 +726,8 @@
              */
             sampleplayer.CastPlayer.prototype.loadMetadata_ = function(media) {
               this.log_('loadMetadata_');
-              this.onLoadMetaDataCallback(media)
+              this.onLoadMetaDataCallback(media);
+              console.log('------------------- loadMetadata_ ----------------------------');
               if (!sampleplayer.isCastForAudioDevice_()) {
                 var metadata = media.metadata || {};
                 var titleElement = this.element_.querySelector('.media-title');

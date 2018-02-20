@@ -30,7 +30,9 @@ export default class GoalStore {
         this.disabled = false
 
         this.timeout = setTimeout(() => {
-            this.disabled = true
+            requestAnimationFrame(() => {
+                this.disabled = true
+            })
         }, 7500)
     }
 

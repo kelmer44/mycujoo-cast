@@ -80,7 +80,17 @@ export default class TimelineStore {
             console.log('[TimelineStore.js:fetchTimeline]', 'timeline.length', timeline.length)
 
             if (timeline.length !== this.timeline.length) {
-                this.timeline = timeline
+                this.timeline = timeline.map(({
+                    id,
+                    type,
+                    offset,
+                    data,
+                }) => ({
+                    id,
+                    type,
+                    offset,
+                    data
+                }))
             }
         } catch (e) {
             console.error('Booo', e)

@@ -124,7 +124,7 @@ export default class PlayerStore {
             }
         } else {
             this.eventId = metadata.eventId
-            this.highlightId = null
+            this.highlightId = false
             this.videoOffset = 0
             this.timer.matchTime = 0
         }

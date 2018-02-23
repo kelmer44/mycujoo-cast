@@ -1,0 +1,84 @@
+.root {
+    height: 100%;
+    overflow: hidden;
+}
+
+.container {
+    display: flex;
+}
+
+.containerWithoutSponsor {
+    composes: container;
+    border-top-right-radius: 2px;
+    border-bottom-right-radius: 2px;
+    height: 62px;
+    overflow: hidden;
+}
+
+.containerWithSponsor {
+    composes: container;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    height: calc(62px + 16px);
+}
+
+.infoWrapper {
+    display: flex;
+    background: rgba(0,0,0, 0.6);
+}
+
+.teamColor {
+    width: 8px;
+    border-top-left-radius: 2px;
+    border-bottom-left-radius: 2px;
+}
+
+.logoContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 64px;
+    background: rgba(0,0,0, 0.3);
+}
+
+.logo {
+    width: 32px;
+    height: 32px;
+    object-fit: contain;
+}
+
+.info {
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    padding: 0 8px;
+}
+
+.iconContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 8px;
+}
+
+.icon {
+    width: 26px;
+    height: 26px;
+    object-fit: contain;
+}
+
+.seperator {
+    height: 50%;
+    width: 2px;
+    background: rgba(255, 255, 255, 0.25);
+    margin: 0 8px;
+}
+
+.player {
+    font-size: 20px;
+    text-transform: uppercase;
+    padding: 0 16px;
+    display: flex;
+    align-items: center;
+    border-left: 2px solid rgba(255, 255, 255, 0.125);
+}

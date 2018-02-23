@@ -11,7 +11,14 @@ loaders.push({
     test: /\.css$/,
     use: ExtractTextPlugin.extract({
         fallback: 'style-loader',
-        use: 'css-loader',
+        use: [{
+            loader: 'css-loader',
+            options: {
+                modules: true,
+                localIdentName: '[hash:base64]',
+                importLoaders: 1
+            }
+        }],
     })
 })
 
@@ -31,7 +38,7 @@ module.exports = ({ analyse }) => {
                 keepClosingSlash: true,
             }
         }),
-        new ExtractTextPlugin("styles.css"),
+        new ExtractTextPlugin('styles.css'),
         new webpack.optimize.OccurrenceOrderPlugin(),
         new webpack.NoEmitOnErrorsPlugin(),
         new webpack.HashedModuleIdsPlugin(),
@@ -53,8 +60,9 @@ module.exports = ({ analyse }) => {
         }),
         new webpack.DefinePlugin({
             'process.env': {
-                'NODE_ENV': JSON.stringify('production')
-            }
+                NODE_ENV: JSON.stringify('production')
+            },
+            'DEV': false,
         }),
     ]
 

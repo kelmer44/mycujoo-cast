@@ -14,9 +14,6 @@
  * limitations under the License.
 **/
 
-/* NOTE: this must be first statement in file to work on device */
-@import url(https://fonts.googleapis.com/css?family=Open+Sans:300,400);
-
 /* ------------------------------------------------- */
 /* Animations                                        */
 /* ------------------------------------------------- */
@@ -36,17 +33,13 @@
 /* ------------------------------------------------- */
 
 body {
-  background-color: #000;
+    background-color: #222224;
+    background-image: -webkit-linear-gradient(top, #222224, #4C4C4E); /* Chrome 10-25, iOS 5+, Safari 5.1+ */
+    background-image:         linear-gradient(to bottom, #222224, #4C4C4E); /* Chrome 26, Firefox 16+, IE 10+, Opera */
 }
 
 .player {
-  background-image: url("assets/background.png");
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  color: #f1f1f1;
-  font-family: 'Open Sans',sans-serif;
-  font-weight: 300;
+  color: #fff;
   position: absolute;
   left: 0;
   right: 0;
@@ -62,15 +55,40 @@ body {
   position: absolute;
   bottom: 50%;
   left: 50%;
-  background-image: url("assets/logo.png");
   margin-bottom: -96px;
   margin-left: -96px;
   width: 192px;
   height: 192px;
+  border-radius: 50%;
+  background: #222224;
+}
+
+@keyframes spinLogo {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.player .logo:after {
+    content: '';
+    width: 70%;
+    height: 70%;
+    position: absolute;
+    top: 15%;
+    left: 15%;
+    background-image: url("./mycujoo-logo-ball.svg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    animation: spinLogo 2.25s cubic-bezier(.2,.94,.09,.99) infinite 1.5s;
 }
 
 .player .placeholder-image {
-  background-image: url("assets/placeholder-audio.jpg");
+  background-image: url("./placeholder-audio.jpg");
 }
 
 .player .gradient {
@@ -94,8 +112,9 @@ body {
 }
 
 .player .media-info {
-  padding-bottom: 54px;
+  padding-bottom: 64px;
   display: flex;
+  align-items: center;
   overflow: hidden;
 }
 
@@ -103,17 +122,17 @@ body {
   background-size: contain;
   background-position: center;
   background-repeat: no-repeat;
-  align-self: flex-end;
   height: 143px;
   margin-right: 32px;
   min-width: 96px;
-  max-width: 266px;
+  max-width: 256px;
   width: 100%;
+  border-radius: 2px;
+  overflow: hidden;
 }
 
 .player .media-text {
   width: 100%;
-  align-self: flex-end;
 }
 
 .player .media-info .media-title {
@@ -142,19 +161,20 @@ body {
 .player .controls {
   display: none;
   bottom: 0;
-  height: 30px;
+  height: 32px;
   left: 0;
   position: absolute;
   right: 0;
 }
 
 .player .controls-play-pause {
-  background-size: cover;
+  background-size: 32px;
+  background-position: center;
   border: 0;
   float: left;
-  height: 36px;
-  margin-left: -4px;
-  margin-top: -3px;
+  height: 32px;
+  margin-left: 0;
+  margin-top: 0;
   width: 32px;
 }
 
@@ -177,7 +197,7 @@ body {
   background-position: bottom right;
   background-repeat: no-repeat;
   margin-bottom: 54px;
-  background-image: url("assets/watermark.png");
+  background-image: url("./watermark.png");
 }
 
 .player .gradient {
@@ -192,16 +212,16 @@ body {
 }
 
 .player .progressBar {
-  background-color: rgb(250, 178, 49);
+  background-color: #0BD280;
 }
 
 .player .controls-progress {
   background-color: rgba(255, 255, 255, 0.2);
   height: 8px;
-  margin-top: 11px;
-  margin-bottom: 11px;
+  margin-top: 12px;
   overflow: hidden;
   position: relative;
+  border-radius: 2px;
 }
 
 .player .controls-progress-inner {
@@ -223,6 +243,7 @@ body {
   color: rgba(255, 255, 255, 0.8);
   font-size: 16px;
   font-weight: 400;
+  line-height: 32px;
 }
 
 .player .controls-cur-time {
@@ -246,16 +267,28 @@ body {
 }
 
 .player .preview-mode-artwork {
-  background-image: url("assets/logo.png");
-  background-size: cover;
-  background-position: bottom;
-  background-repeat: no-repeat;
   align-self: flex-end;
   height: 143px;
   margin-right: 32px;
   min-width: 96px;
   max-width: 266px;
   width: 100%;
+  border-radius: 50%;
+  background: #222224;
+  position: relative;
+}
+
+.player .preview-mode-artwork:after {
+    content: '';
+    width: 70%;
+    height: 70%;
+    position: absolute;
+    top: 15%;
+    left: 15%;
+    background-image: url("./mycujoo-logo-ball.svg");
+    background-size: cover;
+    background-position: bottom;
+    background-repeat: no-repeat;
 }
 
 .player .preview-mode-info .preview-mode-text {
@@ -288,7 +321,7 @@ body {
 
 .player .preview-mode-info .preview-mode-timer {
   display: flex;
-  color: rgb(250, 178, 49);
+  color: #0BD280;
   font-size: 22px;
   overflow: hidden;
   width: 80%;
@@ -321,12 +354,12 @@ body {
 }
 
 .player[type="video"][state="launching"] .spinner {
-  -webkit-animation: spin 1s infinite linear;
-  height: 36px;
+  height: 32px;
   width: 32px;
   display: block;
   position: absolute;
-  background-image: url("assets/buffering.png");
+  background-image: url("./spinner.svg");
+  background-size: 32px;
   bottom: 64px;
   left: 50%;
   margin-left: 32px / -2;
@@ -378,8 +411,8 @@ body {
 }
 
 .player[type="video"][state="buffering"] .controls-play-pause {
-  background-image: url("assets/buffering.png");
-  -webkit-animation: spin 1s infinite linear;
+  background-image: url("./spinner.svg");
+  background-size: 32px;
 }
 
 .player[type="video"][state="buffering"][live="true"] .controls-cur-time,
@@ -415,7 +448,7 @@ body {
 }
 
 .player[type="video"][state="paused"] .controls-play-pause {
-  background-image: url("assets/paused.png");
+  background-image: url("./paused.png");
 }
 
 .player[type="video"][state="paused"] .controls,
@@ -483,8 +516,8 @@ body {
 }
 
 .player[type="video"][state="playing"] .controls-play-pause {
-  background-image: url("assets/buffering.png");
-  -webkit-animation: spin 1s infinite linear;
+  background-image: url("./spinner.svg");
+  background-size: 32px;
 }
 
 .player[type="video"][state="playing"]:not(.seeking) .controls-play-pause {
@@ -538,7 +571,7 @@ body {
   box-shadow: 0px 0px 10px 5px rgba(0, 0, 0, 0.3);
   width: 384px;
   max-width: 384px;
-  background-image: url("assets/placeholder-audio.jpg");
+  background-image: url("./placeholder-audio.jpg");
 }
 
 .player[type="audio"] .media-text {
@@ -586,7 +619,7 @@ body {
 
 .player[type="audio"][state="paused"] .controls-play-pause {
   display: block;
-  background-image: url("assets/paused.png");
+  background-image: url("./paused.png");
 }
 
 .player[type="audio"][state="loading"] .controls-play-pause {
@@ -717,5 +750,5 @@ body {
 }
 
 .player[state="done"] {
-  background-image: url('assets/done.png');
+  background-image: url('./done.png');
 }

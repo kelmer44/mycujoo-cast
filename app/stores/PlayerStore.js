@@ -123,7 +123,6 @@ export default class PlayerStore {
                 this.timer.matchTime = json.meta_data.match_time
             }
         } else {
-            this.eventId = metadata.eventId
             this.highlightId = false
             this.videoOffset = 0
             this.timer.matchTime = 0
@@ -133,6 +132,7 @@ export default class PlayerStore {
         console.log('[PlayerStore.js:initialiseWithPayload]', 'needsUpdate', needsUpdate, 'this.eventId', this.eventId)
 
         if (this.type === 'EVENT') {
+            this.eventId = metadata.eventId
             console.log('[PlayerStore.js:initialiseWithPayload]', 'metadata.eventId', metadata.eventId)
         }
 
